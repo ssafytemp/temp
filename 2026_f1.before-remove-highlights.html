@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 2026 Season Guide - 2026 F1 시즌 입문 가이드</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Orbitron and Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0c10;
+            color: #f1f5f9;
+        }
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        /* Custom Carbon Fiber BG pattern */
+        .carbon-bg {
+            background-color: #0d0e12;
+            background-image: 
+                radial-gradient(rgba(255, 24, 1, 0.05) 1px, transparent 0),
+                linear-gradient(45deg, #0d0e12 25%, #12131a 25%, #12131a 50%, #0d0e12 50%, #0d0e12 75%, #12131a 75%, #12131a 100%);
+            background-size: 40px 40px, 20px 20px;
+        }
+        /* Red Glow Hover effects */
+        .glow-red:hover {
+            box-shadow: 0 0 25px rgba(255, 24, 1, 0.45);
+            border-color: #ff1801;
+        }
+        /* Racing Red color overrides */
+        .text-f1-red {
+            color: #ff1801;
+        }
+        .bg-f1-red {
+            background-color: #ff1801;
+        }
+        .border-f1-red {
+            border-color: #ff1801;
+        }
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d0e12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff1801;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #cc1300;
+        }
+        /* Sticky columns styles for Table */
+        .sticky-col-rank {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+        }
+        .sticky-col-driver {
+            position: sticky;
+            left: 48px;
+            z-index: 10;
+        }
+        .sticky-col-totals {
+            position: sticky;
+            right: 0;
+            z-index: 10;
+            box-shadow: -6px 0 12px rgba(0, 0, 0, 0.6);
+        }
+        .drag-scroll {
+            cursor: grab;
+        }
+        .drag-scroll:active {
+            cursor: grabbing;
+        }
+        .f1-grid-stage {
+            position: relative;
+            overflow: visible;
+            padding: 3rem 3.75rem 4.5rem;
+            border: 1px solid rgba(64, 64, 64, 0.9);
+            border-radius: 18px;
+            background:
+                linear-gradient(90deg, transparent calc(50% - 1px), rgba(255, 255, 255, 0.12) calc(50% - 1px), rgba(255, 255, 255, 0.12) calc(50% + 1px), transparent calc(50% + 1px)),
+                repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 12px),
+                linear-gradient(180deg, rgba(12, 14, 18, 0.98), rgba(3, 4, 6, 0.99));
+            box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.82), 0 24px 80px rgba(0, 0, 0, 0.35);
+        }
+        .f1-driver-grid,
+        .f1-constructor-grid {
+            --grid-line: 6px;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 3rem 4rem;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+        .f1-driver-grid::before,
+        .f1-constructor-grid::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            bottom: -8px;
+            left: 50%;
+            width: var(--grid-line);
+            transform: translateX(-50%);
+            background: rgba(245, 247, 250, 0.9);
+            box-shadow:
+                0 0 0 3px rgba(0, 0, 0, 0.92),
+                0 0 14px rgba(255, 255, 255, 0.16);
+            pointer-events: none;
+        }
+        .driver-grid-card,
+        .constructor-grid-card {
+            min-height: 142px;
+            isolation: isolate;
+        }
+        .constructor-grid-card {
+            min-height: 250px;
+        }
+        .driver-grid-card::before,
+        .constructor-grid-card::before {
+            content: "";
+            position: absolute;
+            inset: -7px -8px;
+            z-index: -1;
+            box-sizing: border-box;
+            border-style: solid;
+            border-color: rgba(245, 247, 250, 0.9);
+            border-width: var(--grid-line) var(--grid-line) 0 var(--grid-line);
+            border-radius: 0;
+            background: transparent;
+            box-shadow:
+                0 0 0 3px rgba(0, 0, 0, 0.92),
+                0 0 14px rgba(255, 255, 255, 0.16);
+            opacity: 1;
+            pointer-events: none;
+        }
+        .driver-grid-card:nth-child(odd),
+        .constructor-grid-card:nth-child(odd) {
+            grid-column: 1;
+            transform: translateY(0);
+        }
+        .driver-grid-card:nth-child(even),
+        .constructor-grid-card:nth-child(even) {
+            grid-column: 2;
+            transform: translateY(76px);
+        }
+        .driver-grid-card:hover,
+        .constructor-grid-card:hover {
+            transform: translateY(-8px) scale(1.01);
+        }
+        .driver-grid-card:nth-child(odd):hover,
+        .constructor-grid-card:nth-child(odd):hover {
+            transform: translateY(-8px) scale(1.01);
+        }
+        .driver-grid-card:nth-child(even):hover,
+        .constructor-grid-card:nth-child(even):hover {
+            transform: translateY(68px) scale(1.01);
+        }
+        @media (max-width: 768px) {
+            .f1-grid-stage {
+                padding: 2rem 1rem;
+                overflow: hidden;
+                background:
+                    linear-gradient(90deg, transparent calc(50% - 1px), rgba(255, 255, 255, 0.08) calc(50% - 1px), rgba(255, 255, 255, 0.08) calc(50% + 1px), transparent calc(50% + 1px)),
+                    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 12px),
+                    linear-gradient(180deg, rgba(12, 14, 18, 0.96), rgba(3, 4, 6, 0.98));
+            }
+            .f1-driver-grid,
+            .f1-constructor-grid {
+                --grid-line: 5px;
+                grid-template-columns: 1fr;
+                gap: 1.75rem;
+            }
+            .f1-driver-grid::before,
+            .f1-constructor-grid::before {
+                display: none;
+            }
+            .driver-grid-card,
+            .driver-grid-card:nth-child(odd),
+            .driver-grid-card:nth-child(even),
+            .driver-grid-card:hover,
+            .driver-grid-card:nth-child(odd):hover,
+            .driver-grid-card:nth-child(even):hover,
+            .constructor-grid-card,
+            .constructor-grid-card:nth-child(odd),
+            .constructor-grid-card:nth-child(even),
+            .constructor-grid-card:hover,
+            .constructor-grid-card:nth-child(odd):hover,
+            .constructor-grid-card:nth-child(even):hover {
+                grid-column: 1;
+                transform: none;
+            }
+            .driver-grid-card::before,
+            .constructor-grid-card::before {
+                inset: -6px;
+                border-width: var(--grid-line) var(--grid-line) 0 var(--grid-line);
+            }
+            #modalDriverPhotoWrap {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="carbon-bg antialiased selection:bg-red-600 selection:text-white">
+
+    <!-- Simplified Hero Section without Navigation Bar -->
+    <section class="relative min-h-screen flex flex-col justify-center items-center px-4 py-12 md:py-16 border-b border-neutral-900">
+        <div class="max-w-4xl mx-auto text-center flex flex-col items-center">
+            <!-- Large Hero Centered Logo Image -->
+            <div class="mb-10 w-full max-w-[280px] sm:max-w-[360px] md:max-w-[480px] transition-transform duration-500 hover:scale-102">
+                <img src="https://i.namu.wiki/i/pH_L99p1mBfg840BWOZWxDXGyprdJ58Pg3pEBm4yBSFj8a7HfG4a_0jOO0GaPrVkkiznFyLUuyX6tyPVQznegUa5cg0bD3TVb-jkQeRrZgbwxMv4ILLEkqArHStLly4gng2GgGsJ1rhVlH5Hru-e_w.svg" 
+                     alt="F1 2026 Official Logo" 
+                     class="w-full h-auto object-contain filter drop-shadow-[0_0_20px_rgba(255,24,1,0.25)]"
+                     onerror="this.onerror=null; this.src='https://placehold.co/600x200/0b0c10/ff1801?text=F1+2026+NEW+ERA'">
+            </div>
+
+            <!-- Vertical Table of Contents Menu List -->
+            <div class="flex flex-col gap-3 w-full max-w-sm px-4">
+                <a href="#standings" class="w-full border border-neutral-800 hover:border-f1-red hover:bg-f1-red/10 text-white font-orbitron font-bold text-sm py-4 px-6 rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 italic tracking-wider flex items-center justify-between group">
+                    <span class="flex items-center gap-3"><i class="fa-solid fa-list-ol text-f1-red"></i> Standings</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-neutral-600 group-hover:text-f1-red transition-colors"></i>
+                </a>
+                <a href="#drivers" class="w-full border border-neutral-800 hover:border-f1-red hover:bg-f1-red/10 text-white font-orbitron font-bold text-sm py-4 px-6 rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 italic tracking-wider flex items-center justify-between group">
+                    <span class="flex items-center gap-3"><i class="fa-solid fa-users text-f1-red"></i> Drivers</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-neutral-600 group-hover:text-f1-red transition-colors"></i>
+                </a>
+                <a href="#constructors" class="w-full border border-neutral-800 hover:border-f1-red hover:bg-f1-red/10 text-white font-orbitron font-bold text-sm py-4 px-6 rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 italic tracking-wider flex items-center justify-between group">
+                    <span class="flex items-center gap-3"><i class="fa-solid fa-car-side text-f1-red"></i> Constructors</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-neutral-600 group-hover:text-f1-red transition-colors"></i>
+                </a>
+                <a href="#tracks" class="w-full border border-neutral-800 hover:border-f1-red hover:bg-f1-red/10 text-white font-orbitron font-bold text-sm py-4 px-6 rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 italic tracking-wider flex items-center justify-between group">
+                    <span class="flex items-center gap-3"><i class="fa-solid fa-route text-f1-red"></i> Circuit</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-neutral-600 group-hover:text-f1-red transition-colors"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Season Highlights Section -->
+    <section id="intro" class="py-20 px-4 md:px-8 bg-black/70 border-b border-neutral-900 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-f1-red font-orbitron font-bold text-xs uppercase tracking-widest block mb-2">Highlights</span>
+                <h2 class="font-orbitron text-2xl md:text-4xl font-black italic uppercase text-white">2026 시즌 핵심 소개</h2>
+                <div class="w-12 h-1 bg-f1-red mx-auto mt-4"></div>
+            </div>
+
+            <!-- Grid of 4 Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-neutral-900/40 border border-neutral-800 p-6 rounded-xl hover:border-f1-red/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-lg bg-f1-red/10 border border-f1-red/20 flex items-center justify-center mb-6 group-hover:bg-f1-red group-hover:text-white text-f1-red transition-all">
+                        <i class="fa-solid fa-gears text-xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-lg font-bold text-white mb-2">새로운 머신 규정</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        섀시 소형화 및 능동 공기역학(Active Aerodynamics) 장착, 그리고 전기 에너지가 최대 3배 증대되는 하이테크 하이브리드 파워트레인이 완전히 도입됩니다.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-neutral-900/40 border border-neutral-800 p-6 rounded-xl hover:border-f1-red/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-lg bg-f1-red/10 border border-f1-red/20 flex items-center justify-center mb-6 group-hover:bg-f1-red group-hover:text-white text-f1-red transition-all">
+                        <i class="fa-solid fa-id-card text-xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-lg font-bold text-white mb-2">22명의 드라이버</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        루이스 해밀턴의 페라리 전격 이적부터 무서운 신흥 루키들의 파란까지, 모터스포츠 왕좌를 건 세대 간의 정면 승부가 그리드 위에서 시작됩니다.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-neutral-900/40 border border-neutral-800 p-6 rounded-xl hover:border-f1-red/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-lg bg-f1-red/10 border border-f1-red/20 flex items-center justify-center mb-6 group-hover:bg-f1-red group-hover:text-white text-f1-red transition-all">
+                        <i class="fa-solid fa-route text-xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-lg font-bold text-white mb-2">22개의 트랙</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        호주 개막전부터 최종 아부다비 결승까지, 대륙별 일정 효율성을 극대화하여 조율된 총 22개의 정규 그랑프리 대장정이 한계 레이스를 기다립니다.
+                    </p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-neutral-900/40 border border-neutral-800 p-6 rounded-xl hover:border-f1-red/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-lg bg-f1-red/10 border border-f1-red/20 flex items-center justify-center mb-6 group-hover:bg-f1-red group-hover:text-white text-f1-red transition-all">
+                        <i class="fa-solid fa-trophy text-xl"></i>
+                    </div>
+                    <h3 class="font-orbitron text-lg font-bold text-white mb-2">제조사 엔진 전쟁</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        아우디 팩토리 팀의 대형 데뷔, 지엠 캐딜락의 파격 참전, 레드불-포드 프로젝트 가동 등 역사상 가장 다채로운 초대형 파워트레인 대전의 탄생.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Drivers Section -->
+    <section id="drivers" class="py-20 px-4 md:px-8 max-w-7xl mx-auto relative z-10">
+        <div class="text-center mb-16">
+            <img src="https://i.namu.wiki/i/pH_L99p1mBfg840BWOZWxDXGyprdJ58Pg3pEBm4yBSFj8a7HfG4a_0jOO0GaPrVkkiznFyLUuyX6tyPVQznegUa5cg0bD3TVb-jkQeRrZgbwxMv4ILLEkqArHStLly4gng2GgGsJ1rhVlH5Hru-e_w.svg"
+                 alt="F1 2026"
+                 class="mx-auto mb-3 h-24 w-auto object-contain drop-shadow-[0_0_20px_rgba(255,24,1,0.45)]">
+            <h2 class="font-orbitron text-2xl md:text-4xl font-black italic uppercase text-white">Drivers</h2>
+            <div class="w-12 h-1 bg-f1-red mx-auto mt-4"></div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap justify-center gap-2 mb-10" id="teamFilters">
+            <button class="filter-btn active bg-f1-red text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="all" title="All Drivers" aria-label="All Drivers">
+                <img src="https://i.namu.wiki/i/pH_L99p1mBfg840BWOZWxDXGyprdJ58Pg3pEBm4yBSFj8a7HfG4a_0jOO0GaPrVkkiznFyLUuyX6tyPVQznegUa5cg0bD3TVb-jkQeRrZgbwxMv4ILLEkqArHStLly4gng2GgGsJ1rhVlH5Hru-e_w.svg" alt="" class="w-12 h-auto object-contain brightness-0 invert">
+            </button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Mercedes" title="Mercedes" aria-label="Mercedes"><span class="filter-logo" data-logo-team="Mercedes"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Ferrari" title="Ferrari" aria-label="Ferrari"><span class="filter-logo" data-logo-team="Ferrari"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="McLaren" title="McLaren" aria-label="McLaren"><span class="filter-logo" data-logo-team="McLaren"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Red Bull" title="Red Bull" aria-label="Red Bull"><span class="filter-logo" data-logo-team="Red Bull Racing"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Alpine" title="Alpine" aria-label="Alpine"><span class="filter-logo" data-logo-team="Alpine"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Racing Bulls" title="Racing Bulls" aria-label="Racing Bulls"><span class="filter-logo" data-logo-team="Racing Bulls"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Haas" title="Haas" aria-label="Haas"><span class="filter-logo" data-logo-team="Haas"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Williams" title="Williams" aria-label="Williams"><span class="filter-logo" data-logo-team="Williams"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Audi" title="Audi" aria-label="Audi"><span class="filter-logo" data-logo-team="Audi"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Aston Martin" title="Aston Martin" aria-label="Aston Martin"><span class="filter-logo" data-logo-team="Aston Martin"></span></button>
+            <button class="filter-btn bg-neutral-900 text-gray-400 hover:text-white w-14 h-10 rounded transition-all inline-flex items-center justify-center" data-team="Cadillac" title="Cadillac" aria-label="Cadillac"><span class="filter-logo" data-logo-team="Cadillac"></span></button>
+        </div>
+
+        <!-- Drivers Grid -->
+        <div class="f1-grid-stage">
+            <div class="f1-driver-grid" id="driversGrid">
+                <!-- Driven dynamically via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Constructors Section -->
+    <section id="constructors" class="py-20 px-4 md:px-8 bg-neutral-950/40 border-t border-neutral-900 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-f1-red font-orbitron font-bold text-xs uppercase tracking-widest block mb-2">TEAMS</span>
+                <h2 class="font-orbitron text-2xl md:text-4xl font-black italic uppercase text-white">2026 컨스트럭터 순위 (11개 팀)</h2>
+                <p class="text-xs text-gray-400 mt-2">카드를 클릭하면 드라이버 라인업과 섀시 팀 전술 상세 팝업이 노출됩니다.</p>
+                <div class="w-12 h-1 bg-f1-red mx-auto mt-4"></div>
+            </div>
+
+            <!-- Constructors Grid -->
+            <div class="f1-grid-stage">
+                <div class="f1-constructor-grid" id="constructorsGrid">
+                    <!-- Driven dynamically via JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Standings Section (Tabbed Tables) -->
+    <section id="standings" class="py-20 px-4 md:px-8 bg-black/80 border-t border-neutral-900 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-f1-red font-orbitron font-bold text-xs uppercase tracking-widest block mb-2">Official Standings</span>
+                <h2 class="font-orbitron text-2xl md:text-4xl font-black italic uppercase text-white">2026 시즌 챔피언십 순위표</h2>
+                <p class="text-xs text-gray-400 mt-2">어두운 레이싱 리더보드 형식으로 전반적인 순위와 누적 레이스 기여 데이터를 추적합니다.</p>
+                <div class="w-12 h-1 bg-f1-red mx-auto mt-4"></div>
+            </div>
+
+            <!-- Standings Tab Controls -->
+            <div class="flex justify-center border-b border-neutral-800 mb-8 max-w-md mx-auto">
+                <button id="tabDriverBtn" onclick="switchStandingsTab('driver')" class="flex-1 text-center py-3 font-orbitron font-bold text-xs tracking-wider uppercase border-b-2 border-f1-red text-white transition-all duration-300">
+                    <i class="fa-solid fa-user-ninja mr-1.5"></i> Driver Standings
+                </button>
+                <button id="tabTeamBtn" onclick="switchStandingsTab('team')" class="flex-1 text-center py-3 font-orbitron font-bold text-xs tracking-wider uppercase border-b-2 border-transparent text-gray-500 hover:text-white transition-all duration-300">
+                    <i class="fa-solid fa-warehouse mr-1.5"></i> Team Standings
+                </button>
+            </div>
+
+            <!-- Driver Standings Container (Nested Race/Sprint results toggles) -->
+            <div id="driverStandingsTableContainer" class="block space-y-6">
+                <!-- Race / Sprint sub toggle buttons inside Driver Standings -->
+                <div class="flex justify-start gap-2 mb-4">
+                    <button id="subRaceBtn" onclick="toggleResultView('race')" class="px-4 py-2 bg-f1-red text-white text-[10px] font-orbitron font-black italic rounded border border-f1-red transition-all">
+                        RACE RESULTS
+                    </button>
+                    <button id="subSprintBtn" onclick="toggleResultView('sprint')" class="px-4 py-2 bg-neutral-900 text-gray-400 hover:text-white text-[10px] font-orbitron font-black italic rounded border border-neutral-800 hover:border-neutral-700 transition-all">
+                        SPRINT RESULTS
+                    </button>
+                </div>
+
+                <!-- Table Wrapper (Horizontal draggable container) -->
+                <div class="overflow-x-auto drag-scroll rounded-lg border border-neutral-800 bg-neutral-950/60 backdrop-blur-md select-none" id="driverTableScrollContainer">
+                    <table class="w-full text-left border-collapse min-w-[1200px]" id="standingsMatrixTable">
+                        <thead>
+                            <tr class="bg-neutral-900/90 border-b border-neutral-800 text-[10px] font-orbitron tracking-widest text-neutral-400 uppercase" id="tableHeaderRow">
+                                <!-- Driven dynamically via JS -->
+                            </tr>
+                        </thead>
+                        <tbody id="driverStandingsBody" class="divide-y divide-neutral-900/60 text-xs font-medium">
+                            <!-- Injected dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Cancelled GP Notice Label Under standings matrix -->
+                <div class="flex flex-wrap items-center gap-2 pt-2 text-[10px]">
+                    <span class="bg-red-950 text-f1-red font-orbitron font-black px-2 py-0.5 rounded italic">ALERT</span>
+                    <span class="text-neutral-500 font-semibold font-mono tracking-wider">Cancelled: BHR Bahrain GP, SAU Saudi Arabian GP</span>
+                </div>
+            </div>
+
+            <!-- Team Standings Container -->
+            <div id="teamStandingsTableContainer" class="hidden">
+                <div class="overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-950/60 backdrop-blur-md">
+                    <table class="w-full text-left border-collapse min-w-[700px]">
+                        <thead>
+                            <tr class="bg-neutral-900/90 border-b border-neutral-800 text-[10px] font-orbitron tracking-widest text-neutral-400 uppercase">
+                                <th class="py-4 px-4 text-center w-16">Rank</th>
+                                <th class="py-4 px-6">Constructor</th>
+                                <th class="py-4 px-6">Drivers Lineup</th>
+                                <th class="py-4 px-4 text-center">Wins</th>
+                                <th class="py-4 px-4 text-center">Podiums</th>
+                                <th class="py-4 px-4 text-center">Events</th>
+                                <th class="py-4 px-6 text-right font-bold text-white">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teamStandingsBody" class="divide-y divide-neutral-900/60 text-xs font-medium">
+                            <!-- Injected dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tracks Section -->
+    <section id="tracks" class="py-20 px-4 md:px-8 bg-black/60 border-t border-neutral-900 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-f1-red font-orbitron font-bold text-xs uppercase tracking-widest block mb-2">Calendars & Results</span>
+                <h2 class="font-orbitron text-2xl md:text-4xl font-black italic uppercase text-white">2026 시즌 그랑프리 일정 및 결과 (22개 라운드)</h2>
+                <p class="text-xs text-gray-400 mt-2">라운드 카드를 클릭하여 경기 결과와 서킷 상세 분석 결과를 확인해 보세요.</p>
+                <div class="w-12 h-1 bg-f1-red mx-auto mt-4"></div>
+            </div>
+
+            <!-- Tracks Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16" id="tracksGrid">
+                <!-- Driven dynamically via JS -->
+            </div>
+
+            <!-- Cancelled GP Section -->
+            <div class="border-t border-neutral-800/80 pt-12">
+                <h3 class="font-orbitron text-lg font-bold italic text-neutral-400 mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-ban text-f1-red"></i> 취소된 그랑프리 (Cancelled Grands Prix)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="cancelledTracksGrid">
+                    <!-- Driven dynamically via JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Watchpoints Section -->
+    <section id="watchpoints" class="py-20 px-4 md:px-8 max-w-7xl mx-auto relative z-10">
+        <div class="text-center mb-16">
+            <span class="text-f1-red font-orbitron font-bold text-xs uppercase tracking-widest block mb-2">Guides</span>
+            <h2 class="font-orbitron text-2xl md:text-4xl font-black italic uppercase text-white">2026 관전 포인트 가이드</h2>
+            <div class="w-12 h-1 bg-f1-red mx-auto mt-4"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- WP 1 -->
+            <div class="bg-neutral-900/40 border-t-4 border-f1-red p-6 rounded-xl hover:shadow-xl transition-all">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-orbitron text-xl font-black text-f1-red italic">01</span>
+                    <h3 class="text-sm font-bold text-white uppercase">예선 (Qualifying)</h3>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    본선(Race)의 출발 순서를 정하는 초정밀 타임어택! Q1, Q2, Q3 탈락 제도로 진행되며, 폴포지션(1위 출발)을 차지하기 위한 극한의 성능 격돌이 펼쳐집니다.
+                </p>
+            </div>
+            <!-- WP 2 -->
+            <div class="bg-neutral-900/40 border-t-4 border-f1-red p-6 rounded-xl hover:shadow-xl transition-all">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-orbitron text-xl font-black text-f1-red italic">02</span>
+                    <h3 class="text-sm font-bold text-white uppercase">스타트 (The Start)</h3>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    5개의 스타트 라이트가 동시에 소등되는 찰나의 폭발! 턴 1(Turn 1) 진입로에서 극단적인 추월 전술과 사고 위험 변수가 가장 높은 짜릿한 순간입니다.
+                </p>
+            </div>
+            <!-- WP 3 -->
+            <div class="bg-neutral-900/40 border-t-4 border-f1-red p-6 rounded-xl hover:shadow-xl transition-all">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-orbitron text-xl font-black text-f1-red italic">03</span>
+                    <h3 class="text-sm font-bold text-white uppercase">피트스톱 (Pit Stop)</h3>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    단 2초 남짓의 극강 팀워크 예술! 노련한 타이어 교체 속도는 치열한 온-트랙 싸움 결과를 순식간에 역전시키는 최고의 기술 전장입니다.
+                </p>
+            </div>
+            <!-- WP 4 -->
+            <div class="bg-neutral-900/40 border-t-4 border-f1-red p-6 rounded-xl hover:shadow-xl transition-all">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-orbitron text-xl font-black text-f1-red italic">04</span>
+                    <h3 class="text-sm font-bold text-white uppercase">타이어 전략 (Tire Strategy)</h3>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    소프트, 미디엄, 하드, 이외 기후 변화 시 투입되는 레인 타이어의 교체 주기와 트랙 온도 제어 여부가 종합 우승 시나리오를 뒤흔듭니다.
+                </p>
+            </div>
+            <!-- WP 5 -->
+            <div class="bg-neutral-900/40 border-t-4 border-f1-red p-6 rounded-xl hover:shadow-xl transition-all">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-orbitron text-xl font-black text-f1-red italic">05</span>
+                    <h3 class="text-sm font-bold text-white uppercase">팀 라디오 (Team Radio)</h3>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    시속 300km 레이싱 격전 중 오가는 레이서와 엔지니어의 실시간 무선통신! 전략 변수, 차체 불만, 가감 없는 감정이 교차하는 리얼한 드라마입니다.
+                </p>
+            </div>
+            <!-- WP 6 -->
+            <div class="bg-neutral-900/40 border-t-4 border-f1-red p-6 rounded-xl hover:shadow-xl transition-all">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-orbitron text-xl font-black text-f1-red italic">06</span>
+                    <h3 class="text-sm font-bold text-white uppercase">챔피언십 포인트 (Championship)</h3>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    탑 10 드라이버에게 각각 차등 점수(25점부터 1점까지)를 제공하고, 10위권 이내 선수 중 가장 빠른 랩(Fastest Lap)을 기록하면 1점 가산 룰이 적용됩니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Driver Modal Overlay -->
+    <div id="driverModal" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-neutral-950 border border-f1-red rounded-2xl w-full max-w-md p-6 relative shadow-2xl overflow-hidden transition-all transform scale-95" id="driverModalContent">
+            <button onclick="closeDriverModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-2 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="mb-4 inline-flex items-center justify-center" id="modalDriverTeamTag" title="TEAM NAME"></div>
+            <div id="modalDriverPhotoWrap" class="hidden mb-5 h-[360px] overflow-hidden rounded-xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-black">
+                <img id="modalDriverPhoto" src="" alt="Driver portrait" class="w-full h-full object-contain object-bottom">
+            </div>
+            <h3 class="font-orbitron text-2xl font-black italic text-white uppercase mb-1" id="modalDriverName">DRIVER NAME</h3>
+            <p class="text-[10px] text-gray-400 font-semibold tracking-wider mb-6" id="modalDriverNameEn">DRIVER NAME ENGLISH</p>
+
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-lg text-center">
+                    <span class="block text-[9px] text-gray-500 font-bold uppercase tracking-widest">DRIVERS RANK</span>
+                    <span class="font-orbitron text-lg font-bold text-f1-red" id="modalDriverRank">1</span>
+                </div>
+                <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-lg text-center">
+                    <span class="block text-[9px] text-gray-500 font-bold uppercase tracking-widest">POINTS</span>
+                    <span class="font-orbitron text-lg font-bold text-white" id="modalDriverPoints">0</span>
+                </div>
+            </div>
+
+            <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-lg mb-4">
+                <h4 class="text-[10px] font-bold text-f1-red uppercase tracking-wide mb-3">드라이버 기록</h4>
+                <div class="grid grid-cols-1 gap-2 text-[11px]">
+                    <div class="flex items-center justify-between gap-3">
+                        <span class="text-gray-500 font-bold">데뷔 년도</span>
+                        <span class="font-orbitron font-bold text-white" id="modalDriverDebutYear">-</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-3">
+                        <span class="text-gray-500 font-bold">드라이버 챔피언십 최고 순위</span>
+                        <span class="font-orbitron font-bold text-white" id="modalDriverBestRank">-</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-3">
+                        <span class="text-gray-500 font-bold">그랑프리 우승 횟수</span>
+                        <span class="font-orbitron font-bold text-white" id="modalDriverGpWins">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-right">
+                <button onclick="closeDriverModal()" class="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold text-xs py-2 px-5 rounded border border-neutral-700 transition-all">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Constructor Modal Overlay -->
+    <div id="constructorModal" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-neutral-950 border border-f1-red rounded-2xl w-full max-w-md p-6 relative shadow-2xl overflow-hidden transition-all transform scale-95" id="constructorModalContent">
+            <button onclick="closeConstructorModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-2 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <!-- Logo container in constructor modal -->
+            <div class="flex items-center justify-between mb-4">
+                <div class="inline-block bg-white text-black text-[9px] font-orbitron font-black px-2 py-0.5 rounded italic" id="modalConstructorRank">RANK 1</div>
+                <div id="modalConstructorLogoContainer" class="w-16 h-16 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center p-2"></div>
+            </div>
+            
+            <h3 class="font-orbitron text-2xl font-black italic text-white uppercase mb-1" id="modalConstructorTeam">CONSTRUCTOR NAME</h3>
+            <p class="text-[10px] text-gray-400 font-semibold tracking-wider mb-6" id="modalConstructorTeamEn">CONSTRUCTOR NAME EN</p>
+
+            <div class="space-y-4">
+                <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-lg">
+                    <h4 class="text-[10px] font-bold text-f1-red uppercase tracking-wide mb-1.5">드라이버 라인업 (Lineup)</h4>
+                    <p class="text-xs font-semibold text-white mt-1" id="modalConstructorDriversKo">드라이버 한글 조합</p>
+                    <p class="text-[9px] text-gray-400 font-mono" id="modalConstructorDriversEn">Drivers English Combination</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-lg text-center">
+                        <span class="block text-[9px] text-gray-500 font-bold uppercase tracking-widest">CONSTRUCTORS RANK</span>
+                        <span class="font-orbitron text-base font-bold text-f1-red" id="modalConstructorDetailRank">#1</span>
+                    </div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-lg text-center">
+                        <span class="block text-[9px] text-gray-500 font-bold uppercase tracking-widest">CUMULATED PTS</span>
+                        <span class="font-orbitron text-base font-bold text-white" id="modalConstructorPoints">0 pts</span>
+                    </div>
+                </div>
+
+                <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-lg">
+                    <h4 class="text-[10px] font-bold text-f1-red uppercase tracking-wide mb-1.5">팀 전략 가이드</h4>
+                    <p class="text-xs text-gray-200 leading-relaxed" id="modalConstructorDesc">팀의 현재 흐름과 주행 특징에 대한 가이드 정보입니다.</p>
+                </div>
+            </div>
+
+            <div class="mt-8 text-right">
+                <button onclick="closeConstructorModal()" class="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold text-xs py-2 px-5 rounded border border-neutral-700 transition-all">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Track Modal Overlay -->
+    <div id="trackModal" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-neutral-950 border border-f1-red rounded-2xl w-full max-w-md p-6 relative shadow-2xl overflow-hidden transition-all transform scale-95" id="trackModalContent">
+            <button onclick="closeTrackModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors p-2 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="mb-4 inline-flex items-center gap-2">
+                <span class="bg-f1-red text-white text-[9px] font-orbitron font-black px-2 py-0.5 rounded italic" id="modalTrackRound">ROUND 1</span>
+                <span class="text-[10px] text-gray-400 font-semibold" id="modalTrackDate">DATE</span>
+            </div>
+            
+            <h3 class="font-orbitron text-2xl font-black italic text-white uppercase mb-1" id="modalTrackCircuit">CIRCUIT NAME</h3>
+            <p class="text-[10px] text-gray-400 font-semibold tracking-wider mb-6" id="modalTrackLocation">COUNTRY / CITY</p>
+
+            <div class="space-y-4">
+                <!-- Status Badge -->
+                <div class="flex items-center gap-2 bg-neutral-900 border border-neutral-800 p-3 rounded-lg">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase">진행 상태:</span>
+                    <span id="modalTrackStatusBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded italic"></span>
+                </div>
+
+                <!-- Live Track Stats -->
+                <div class="bg-neutral-900 border border-neutral-800 p-4 rounded-lg space-y-3">
+                    <h4 class="text-[10px] font-bold text-f1-red uppercase tracking-wider border-b border-neutral-800/60 pb-2 flex items-center gap-1.5">
+                        <i class="fa-solid fa-square-poll-vertical"></i> 그랑프리 결과 및 기록
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 gap-2.5 text-xs">
+                        <div class="flex justify-between items-center bg-black/30 p-2 rounded">
+                            <span class="text-[11px] text-gray-400 font-semibold"><i class="fa-solid fa-stopwatch text-yellow-500 mr-1.5"></i> 폴 포지션</span>
+                            <div class="text-right">
+                                <span class="font-bold text-white block text-[11px]" id="modalTrackPoleDriver"></span>
+                                <span class="text-[9px] text-gray-500 font-mono" id="modalTrackPoleTeam"></span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center bg-black/30 p-2 rounded">
+                            <span class="text-[11px] text-gray-400 font-semibold"><i class="fa-solid fa-gauge-high text-f1-red mr-1.5"></i> 패스티스트 랩</span>
+                            <div class="text-right">
+                                <span class="font-bold text-white block text-[11px]" id="modalTrackFastestDriver"></span>
+                                <span class="text-[9px] text-gray-500 font-mono" id="modalTrackFastestTeam"></span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center bg-black/30 p-2 rounded border-l-4 border-f1-red">
+                            <span class="text-[11px] text-gray-400 font-semibold"><i class="fa-solid fa-trophy text-yellow-400 mr-1.5"></i> 그랑프리 우승</span>
+                            <div class="text-right">
+                                <span class="font-bold text-f1-red block text-[11px]" id="modalTrackWinnerDriver"></span>
+                                <span class="text-[9px] text-gray-500 font-mono" id="modalTrackWinnerTeam"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-right">
+                <button onclick="closeTrackModal()" class="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold text-xs py-2 px-5 rounded border border-neutral-700 transition-all">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="bg-neutral-950 border-t border-neutral-900 py-16 px-4 md:px-8 text-center relative z-10 text-[10px] text-gray-500">
+        <div class="max-w-7xl mx-auto space-y-6">
+            <div class="font-orbitron text-base font-black italic tracking-widest text-white">
+                F1 <span class="text-f1-red">2026</span> SEASON GUIDE
+            </div>
+            
+            <p class="max-w-md mx-auto text-gray-400 leading-relaxed">
+                본 페이지는 2026년 대대적인 규정 변화 시기를 맞이하여 입문자들을 위해 개발된 <br class="hidden sm:inline">
+                비공식 개인 프로젝트 아티팩트 페이지입니다.
+            </p>
+
+            <div class="pt-6 border-t border-neutral-900 max-w-sm mx-auto space-y-2">
+                <p class="font-semibold text-[9px] tracking-wider uppercase text-gray-600">Fan-made F1 intro page</p>
+                <p class="text-[9px] text-gray-600 font-light">This is an unofficial educational project. Formula 1, F1, FIA FORMULA ONE WORLD CHAMPIONSHIP, GRAND PRIX are trademarks of Formula One Licensing BV.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // 1. DATASETS (Clean, Structurized, Scalable)
+        // ==========================================
+        
+        // 22 Drivers Data (wins, podiums, events fields included with default values)
+        const DRIVERS_DATA = [
+            { 
+                rank: 1, nameKo: "키미 안토넬리", nameEn: "Kimi Antonelli", teamKo: "메르세데스", teamEn: "Mercedes", points: 179, wins: 5, podiums: 7, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/fGrUPtoxiJc3dzQqKWf7REXJce-eHbsxsEYr1ydiBa9sO3FS0wlA-20XhnldfCGlldrWr30DnZdQq5ZJl-GPZtcabvFwd3tgH7aSO_Ue63BvimyGYSCioSdL6USEz_Oug_RpZ5MZd5EA3o7XyR9xMg.webp",
+                debutYear: "2025년",
+                bestChampionshipRank: "7위 (2025)",
+                grandPrixWins: "5회",
+                desc: "메르세데스 주니어 출신 최강 천재 드라이버. 거침없는 스피드로 신예 돌풍의 중심에 서 있습니다.",
+                raceResults: ["2", "1", "1", "1", "1", "1", "16", "3", "15", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["5", "6", "3", "1", "-", "-"]
+            },
+            { 
+                rank: 2, nameKo: "조지 러셀", nameEn: "George Russell", teamKo: "메르세데스", teamEn: "Mercedes", points: 154, wins: 2, podiums: 5, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/3dUvsvwZ56-nFgGlAe8meHIJZa9rMrzY3jepljE-zV6ZG86ffD5Idt79K26xi-XeYpofYBkrMJDcEmkCU6XkpBbsrCyApAKdI4KWycuZ6J14MdNcRJRSGSEaW8oYM8KKRFBOtxFtQzpD2anoqOIDvQ.webp",
+                debutYear: "2019년",
+                bestChampionshipRank: "4위 (2022, 2025)",
+                grandPrixWins: "7회",
+                desc: "메르세데스의 정교한 주축 레이서. 일관되고 강력한 랩타임을 만들어내는 서킷의 교과서입니다.",
+                raceResults: ["1", "2", "4", "4", "DNF", "12", "2", "1", "2", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["1", "4", "1", "4", "-", "-"]
+            },
+            { 
+                rank: 3, nameKo: "루이스 해밀턴", nameEn: "Lewis Hamilton", teamKo: "페라리", teamEn: "Ferrari", points: 147, wins: 1, podiums: 5, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/ROzzpdd5EtanVRthf24khxDikj_MfPK0DIRC8-FjN4b5i72U09ZwgOH_JqQs8XrotZG66ASfTiqeRyPVyG7AS29ArCCyihKgjXh06nKM1mySlhkzwLxSRKLg_0jZrcL6A1I2YFhIpKCcw8t-Avc8vQ.webp",
+                debutYear: "2007년",
+                bestChampionshipRank: "1위 (2008, 2014, 2015, 2017, 2018, 2019, 2020)",
+                grandPrixWins: "106회",
+                desc: "페라리로 전격 이적을 단행한 황제. 붉은 머신을 탄 역사상 최고의 리빙 레전드입니다.",
+                raceResults: ["4", "3", "6", "6", "2", "2", "1", "5", "3", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["3", "7", "6", "2", "-", "-"]
+            },
+            { 
+                rank: 4, nameKo: "샤를 르클레르", nameEn: "Charles Leclerc", teamKo: "페라리", teamEn: "Ferrari", points: 108, wins: 1, podiums: 3, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/NACXsA7fct0wt0URda-W6jZKpYxjCuQvdNzdnyL5oed_7d3tcqASV0a66PACX9_Zj6Udp9pPZ_02HJgqqhd2nmM1HZovrA0mB9YVc--oldYT3YYuaY1jjx-fxvZGRHifaUgSzLVKNOSSz6K1Ohp0_Q.webp",
+                debutYear: "2018년",
+                bestChampionshipRank: "2위 (2022)",
+                grandPrixWins: "9회",
+                desc: "페라리 왕가의 에이스. 극강의 타임어택 능력으로 최고의 인기를 구가하는 예선의 제왕입니다.",
+                raceResults: ["3", "4", "3", "8", "4", "DNF", "15", "8", "1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["2", "3", "5", "5", "-", "-"]
+            },
+            { 
+                rank: 5, nameKo: "랜도 노리스", nameEn: "Lando Norris", teamKo: "맥라렌", teamEn: "McLaren", points: 97, wins: 0, podiums: 3, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/ELKFFEPS-DkeaS7axb7ntZ9Kx5hVwcH7ZVVRhB8a3U6rKNz97PALnIogXbhGDiCMRehv4vXa_ss3HURlpwI91-gLNyCNUQd0oSg-2MsdMN0F8pzMpilAzhFnWni-_CAcBAwMxxJ-WzPbpDvItX_UWA.webp",
+                debutYear: "2019년",
+                bestChampionshipRank: "1위 (2025)",
+                grandPrixWins: "11회",
+                desc: "오렌지 패키지의 선두 주자. 완벽에 가깝게 조율된 머신 밸런스를 무기로 우승에 도전합니다.",
+                raceResults: ["5", "DNS", "5", "2", "DNF", "DNF", "3", "7", "4", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["4", "1", "2", "3", "-", "-"]
+            },
+            { 
+                rank: 6, nameKo: "오스카 피아스트리", nameEn: "Oscar Piastri", teamKo: "맥라렌", teamEn: "McLaren", points: 82, wins: 1, podiums: 2, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/PtwUxneexbtpziHDXdNRiN2QmE0rLsgYBQxbPNc8mNDF0GBbGgu4nsYMDphUl0Z1iJ8rN7eTbyt1GKlp_CQhvBBJUU4gJR1Pvx0VPMlgyelFxvI4GainUf5VStfhkM8DCa0ydWjTASlBNGYLRTDMIw.webp",
+                debutYear: "2023년",
+                bestChampionshipRank: "3위 (2025)",
+                grandPrixWins: "9회",
+                desc: "침착함과 대범함을 동시에 갖춘 젊은 강자. 압박감이 가장 심한 곳에서도 냉철하게 판단합니다.",
+                raceResults: ["DNS", "DNS", "2", "3", "11", "5", "5", "4", "11", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["6", "2", "4", "7", "-", "-"]
+            },
+            { 
+                rank: 7, nameKo: "막스 베르스타펜", nameEn: "Max Verstappen", teamKo: "레드불 레이싱", teamEn: "Red Bull Racing", points: 76, wins: 0, podiums: 1, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/awtRjDn1MaoKqvqxM5qWT_tiuMpK_Q5SVjK_fdiCSfw3m-CV0goSPzIG5OAt0IeLst6ET5unN8wvmLO5ffvCdLpe4c6qyu2bgzMYqx3EcMrD7zcWGQfUYRxnwsm_YOTRPbKu8fD9WOb0M74dnmsL2Q.webp",
+                debutYear: "2015년",
+                bestChampionshipRank: "1위 (2021, 2022, 2023, 2024)",
+                grandPrixWins: "71회",
+                desc: "불굴의 집념을 보여주는 챔피언. 뛰어난 수비력과 과감한 추월 능력을 가졌습니다.",
+                raceResults: ["6", "DNF", "8", "5", "3", "DNF", "4", "2", "20", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["9", "5", "7", "6", "-", "-"]
+            },
+            { 
+                rank: 8, nameKo: "아이작 하자르", nameEn: "Isack Hadjar", teamKo: "레드불 레이싱", teamEn: "Red Bull Racing", points: 52, wins: 0, podiums: 1, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/KM5jEClK3NfzTVf4eMDX0fhFCYbWgKZj94qk9rUhcerTbp6zgJhku9DFMj1vNSlZz54IzEkYNpwFroxOQqtHnesgQbWxrcF5Fl5tTOYBp8wDWqBBfW9ncInNVwemP0TvkYfRIT3nnWIZSftpRAxq4Q.webp",
+                debutYear: "2025년",
+                bestChampionshipRank: "12위 (2025)",
+                grandPrixWins: "0회",
+                desc: "레드불이 키워낸 새로운 저돌파 드라이버. 타오르는 투지로 코너를 주파합니다.",
+                raceResults: ["DNF", "8", "12", "DNF", "5", "4", "6", "6", "5", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["15", "9", "21", "9", "-", "-"]
+            },
+            { 
+                rank: 9, nameKo: "피에르 가슬리", nameEn: "Pierre Gasly", teamKo: "알핀", teamEn: "Alpine", points: 42, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/Xhh3PkcrmgRRnmonLnjKGzRhyBDSusqiJDW6HZklrZ58vixE2mO8X4y-zXDAnwKNyJSTYJ7OZpnT3f019wUd5XDaa0mgrEy8fKggf83FRDxUW5etgOxKTexC024VrdBeXmZYvVbRDmW7S9vtNawEXA.webp",
+                debutYear: "2017년",
+                bestChampionshipRank: "7위 (2019)",
+                grandPrixWins: "1회",
+                desc: "알핀 부대의 기둥 레이서. 복잡한 기후 조건과 타이어 교체 등 가변 변수에서 최선의 답을 냅니다.",
+                raceResults: ["10", "6", "7", "DNF", "8", "3", "7", "13", "10", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["11", "8", "20", "11", "-", "-"]
+            },
+            { 
+                rank: 10, nameKo: "리암 로슨", nameEn: "Liam Lawson", teamKo: "레이싱 불스", teamEn: "Racing Bulls", points: 39, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/-Dmus0ZFx4XjhDJ_fAHZgkhIV7QJ0-0D__DYGYTnE2GXip6CB_WgsEPUFi7p8eqnypXptNgYeMfwOiuLkqXauUHGO2IcgW_ZMKtNi_XkXUpjKfhKJTGxwkvnw9iWoTJmFWHp93-Owxs3QvTCkmRVow.webp",
+                debutYear: "2023년",
+                bestChampionshipRank: "14위 (2025)",
+                grandPrixWins: "0회",
+                desc: "뛰어난 기회 포착 능력으로 마침내 정식 주력 시트를 확보한 강인한 승부사.",
+                raceResults: ["13", "7", "9", "DNF", "7", "6", "8", "9", "6", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["7", "14", "11", "8", "-", "-"]
+            },
+            { 
+                rank: 11, nameKo: "아르비드 린드블라드", nameEn: "Arvid Lindblad", teamKo: "레이싱 불스", teamEn: "Racing Bulls", points: 20, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/1yCCJ70M0futnyj9gtwr4VxcwEfsUstVRAS5Zp9wSFlwrU6gdfexhVyVe14mxGNwC2KSS15kvmwePVYbAnREpurzNxwlpSTtVU4Halgugl8Pa9p_EMkgigIoEAgf5175sWZj6r-hPaUX2v8vyb2GNg.webp",
+                debutYear: "2026년",
+                bestChampionshipRank: "-",
+                grandPrixWins: "0회",
+                desc: "성장세가 무서운 루키 드라이버. 탄탄한 주행 라인 설계 능력을 보유하고 있습니다.",
+                raceResults: ["8", "12", "14", "14", "DNS", "7", "9", "10", "7", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["DNF", "DNS", "8", "10", "-", "-"]
+            },
+            { 
+                rank: 12, nameKo: "올리버 베어먼", nameEn: "Oliver Bearman", teamKo: "하스", teamEn: "Haas", points: 18, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/JsdgrVIOkb5_UHx5puSi7zG7LhUcCJ9ZMca0bY37GebjHYkOtmlJwlJIJ2wkpLc8Q2y-9lhMCIGG5fH-K04HF2-Wwt3TCoLPycq5hpj0YxWEUCgVo8ZgiTAIRoD9cJaJ50mQ4SYfZ5O56P1Ka64Qgw.webp",
+                debutYear: "2024년",
+                bestChampionshipRank: "13위 (2025)",
+                grandPrixWins: "0회",
+                desc: "데뷔전부터 폭발적인 포텐셜을 터뜨린 차세대 신성으로, 강력한 레이싱 감각을 뽐냅니다.",
+                raceResults: ["7", "5", "DNF", "11", "10", "DNF", "17", "14", "12", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["8", "12", "18", "14", "-", "-"]
+            },
+            { 
+                rank: 13, nameKo: "프랑코 콜라핀토", nameEn: "Franco Colapinto", teamKo: "알핀", teamEn: "Alpine", points: 18, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/rkgcY6t8GVkAdkeDm3zAmPyvkmVPyxXArI_-r_4aEE47X8WzAJ2F4FfRT7mSoyNJeAW5VqOQQ6QaQEiBsqT6dLmUnvAcJTfkbjfEEm96zLxhrwf8f4jSnv92WL3lUhGh7IbJnicvc_W-zbynxny_8Q.webp",
+                debutYear: "2024년",
+                bestChampionshipRank: "19위 (2024)",
+                grandPrixWins: "0회",
+                desc: "남미 아르헨티나의 열정이 돋보이는 레이서. 높은 한계 G를 견디며 머신을 쥐어짭니다.",
+                raceResults: ["14", "10", "16", "7", "6", "14", "10", "15", "9", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["14", "10", "9", "12", "-", "-"]
+            },
+            { 
+                rank: 14, nameKo: "가브리에우 보르툴레투", nameEn: "Gabriel Bortoleto", teamKo: "아우디", teamEn: "Audi", points: 6, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/HtisHAsZiX9WkWm4KOiWGPvzOVjX5qzKCPoB_bvizodg40oPnymMUYT8Om6iGHdgvIkrAAhgZ96CJfoeoqQkWpNZx4JqsqYjqPLjrxXVZrw5bSEgGhDka7tGTA28AWkSA1Jt1fYhpZO9p4AtLbFdMQ.webp",
+                debutYear: "2025년",
+                bestChampionshipRank: "19위 (2025)",
+                grandPrixWins: "0회",
+                desc: "F2 무대를 석권하고 아우디의 핵심 미래 전력으로 발탁된 브라질의 황제 후보.",
+                raceResults: ["9", "DNS", "13", "12", "13", "11", "11", "11", "8", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["13", "DSQ", "12", "13", "-", "-"]
+            },
+            { 
+                rank: 15, nameKo: "카를로스 사인츠", nameEn: "Carlos Sainz", teamKo: "윌리엄스", teamEn: "Williams", points: 6, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/tiT9uC7jx50jvBEp9rT3YMW1VtYjtMY22AC0-bBQt2DKQc-FzM59_pDXiE3ve9ccEnsaAS_pyM9xILTYNDFG1cZr3Ju5qOqAiLAdL-OQUzH4Ml8-EwJeg5muei5pXrrzK6NUaZf2oe-ubcrI7CyBhg.webp",
+                debutYear: "2015년",
+                bestChampionshipRank: "5위 (2021, 2022, 2024)",
+                grandPrixWins: "4회",
+                desc: "지능적인 레이스 전술가. 윌리엄스의 역사적 도약을 돕기 위해 최정상 주행 능력을 제공합니다.",
+                raceResults: ["15", "9", "15", "9", "9", "16", "12", "DNF", "17", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["12", "13", "10", "17", "-", "-"]
+            },
+            { 
+                rank: 16, nameKo: "알렉스 알본", nameEn: "Alex Albon", teamKo: "윌리엄스", teamEn: "Williams", points: 5, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/cDn7SKxIIzFQlAHhhHtpnAU7g8TVgZPckxibIz6WXyeeMK7ruuRYcAjQdpdoAMUeyTOiGRiwvdLM3W50PBHpUe9SfKk5NH3t7EGoNjKtFs-1RqsXFnlePbHEy7fLxovPqs8TTPoAW7RJti7_jHmLBg.webp",
+                debutYear: "2019년",
+                bestChampionshipRank: "7위 (2020)",
+                grandPrixWins: "0회",
+                desc: "중하위권 머신을 한계 너머로 이끌며 소중한 포인트 피드를 뽑아내는 '포인트 사수'의 달인.",
+                raceResults: ["12", "DNS", "20", "10", "DNF", "8", "NC", "17", "DNF", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["16", "18", "19", "18", "-", "-"]
+            },
+            { 
+                rank: 17, nameKo: "에스테반 오콘", nameEn: "Esteban Ocon", teamKo: "하스", teamEn: "Haas", points: 3, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/ArHnSLyfGB6rNTV0BpuErt8oq4Ql3UlrHCgPvWmi43yxYSPfr1B29DguPqsR3IpgmTjinWRS6z9A82bXUlUOJRizkJ59H2ndYWHvC3GZub47Il9oyHHS0pFp9hMSslZ06ykvBP2lz25WEUeYJnBfsg.webp",
+                debutYear: "2016년",
+                bestChampionshipRank: "8위 (2017, 2022)",
+                grandPrixWins: "1회",
+                desc: "강한 승부욕을 자랑하는 공격형 드라이버. 수비 포지션에서 누구보다 끈덕진 면모를 보여줍니다.",
+                raceResults: ["11", "14", "10", "13", "14", "9", "13", "16", "13", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["10", "11", "13", "16", "-", "-"]
+            },
+            { 
+                rank: 18, nameKo: "페르난도 알론소", nameEn: "Fernando Alonso", teamKo: "애스턴 마틴", teamEn: "Aston Martin", points: 1, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/7sQf8qP-8lW0Wp8YyTJuBwIgE69SWWW3xOYc0Auga1QrqKvDVAG_RcY7VvFpDJ_2uByd2FPr8fgSvHmJGZnS2PaCzhORRrNVhvHRMcj-KcLoMLHIMaAK_aNAcHSB3n76sFEtnQO7YD0sEqCp795shw.webp",
+                debutYear: "2001년",
+                bestChampionshipRank: "1위 (2005, 2006)",
+                grandPrixWins: "32회",
+                desc: "모든 레이싱 기술을 통달한 영원한 현역. 노련한 타이어 관리과 영리한 심리전이 강점입니다.",
+                raceResults: ["DNF", "DNF", "18", "15", "DNF", "10", "DNF", "18", "18", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["17", "15", "DNF", "20", "-", "-"]
+            },
+            { 
+                rank: 19, nameKo: "니코 휠켄베르크", nameEn: "Nico Hulkenberg", teamKo: "아우디", teamEn: "Audi", points: 0, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/71okJCbfh-o_sDq_mvMZmpGcEY0qRb5PnBigJdIb3sBubvNCf44NAxqNXUbN4HHHwV5i6pfBBj4f7LZ5TvJolpYho_0fiDkYgtBZsiUPw0egN-72Q7OXF4R3PCnoh9Ihi-7eJIqCH-L302kqb9zvAw.webp",
+                debutYear: "2010년",
+                bestChampionshipRank: "7위 (2018)",
+                grandPrixWins: "0회",
+                desc: "아우디 신규 파워트레인의 기반 데이터를 축적해 나가는 안정감 있는 정밀 기계형 드라이버.",
+                raceResults: ["DNS", "11", "11", "DNF", "12", "13", "DNF", "12", "DNF", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["DNF", "DNS", "15", "15", "-", "-"]
+            },
+            { 
+                rank: 20, nameKo: "발테리 보타스", nameEn: "Valtteri Bottas", teamKo: "캐딜락", teamEn: "Cadillac", points: 0, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/3IA4CVvCF-hr6lV22TAN_OVvbh6LRETSlD-gTXN6CTgzEsaJ8bxV8nNAGCvOKDCDaV7F8KQZ429P4AjJBKtrU5r1Cq0bp9Jjehpg_blIeGKiXyM0yMvi4OIEYDEV5nRTcnb1_M8zFnH2zU2i7YGvuw.webp",
+                debutYear: "2013년",
+                bestChampionshipRank: "2위 (2019, 2020)",
+                grandPrixWins: "10회",
+                desc: "베테랑의 관록을 지닌 테크니션. 신생 팀 캐딜락에 정밀한 셋업 노하우를 이식하고 있습니다.",
+                raceResults: ["DNF", "13", "19", "18", "16", "DNF", "DNF", "DNF", "16", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["DNF", "19", "17", "19", "-", "-"]
+            },
+            { 
+                rank: 21, nameKo: "세르히오 페레스", nameEn: "Sergio Perez", teamKo: "캐딜락", teamEn: "Cadillac", points: 0, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/Hh4bAPwlqiQJyHYvNJ59RK7JW6lKqdzPDJJxJP8hvnF9lj7PObjX-vxRBFouPAa-YfRBOOcYOlpeqbSww_Ya2sP3-bH-B-yVUrNeHOwVjJr_YVSO7NrMusE_M3w7mJAFsz14kkFIYTiASKG8MIlmPw.webp",
+                debutYear: "2011년",
+                bestChampionshipRank: "2위 (2023)",
+                grandPrixWins: "6회",
+                desc: "스트리트 서킷의 강자이자 끈끈한 타이어 관리자. 신생 프로젝트 캐딜락에 합류했습니다.",
+                raceResults: ["16", "15", "17", "16", "DNF", "15", "14", "DNF", "14", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["19", "16", "14", "22", "-", "-"]
+            },
+            { 
+                rank: 22, nameKo: "랜스 스트롤", nameEn: "Lance Stroll", teamKo: "애스턴 마틴", teamEn: "Aston Martin", points: 0, wins: 0, podiums: 0, events: 9, 
+                imageUrl: "https://i.namu.wiki/i/YACybOY4mwJrbu4Y-FgPsgUREqZRA4Y7lfaDkHv2NjNtcEpJttdtYveRSZm5shFy3Kl5FaTfa-Gpr3HAGcuiAI9OqnXWMH184nFbBAk4y14l3UV63Hn05DTtZRtfVxfoh7ZUz1Y0Xofh8ulDTwPSlw.webp",
+                debutYear: "2019년",
+                bestChampionshipRank: "10위 (2023)",
+                grandPrixWins: "0회",
+                desc: "과감한 공격과 빗길에서의 놀라운 감각을 앞세워 반전을 노리는 개성 강한 레이서.",
+                raceResults: ["NC", "DNF", "DNF", "17", "15", "DNF", "DNF", "DNF", "19", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                sprintResults: ["18", "17", "16", "21", "-", "-"]
+            }
+        ];
+
+        // 11 Constructors Data (wins, podiums, events fields included with default values)
+        const CONSTRUCTORS_DATA = [
+            { rank: 1, teamKo: "메르세데스", teamEn: "Mercedes", driversKo: "러셀, 안토넬리", driversEn: "George Russell, Kimi Antonelli", points: 333, wins: 7, podiums: 12, events: 9, desc: "2026 새로운 기술 규정을 가장 완벽하게 지배한 은빛 화살. 극강의 공기역학과 가변 서스펜션 패키징을 앞세워 리그의 압도적 1위를 달리고 있습니다." },
+            { rank: 2, teamKo: "페라리", teamEn: "Ferrari", driversKo: "르클레르, 해밀턴", driversEn: "Charles Leclerc, Lewis Hamilton", points: 255, wins: 2, podiums: 8, events: 9, desc: "르클레르와 해밀턴이라는 역대급 월드 챔피언급 듀오를 완성한 이탈리아의 프라이드. 최상급 파워유닛 출력을 강점으로 챔피언 왕좌 복귀를 위해 맹렬히 질주합니다." },
+            { rank: 3, teamKo: "맥라렌", teamEn: "McLaren", driversKo: "피아스트리, 노리스", driversEn: "Oscar Piastri, Lando Norris", points: 179, wins: 1, podiums: 5, events: 9, desc: "최신식 하이테크 윈드 터널을 기반으로 전 영역에서 놀라운 기민함을 자랑하는 최적의 섀시 밸런스를 구축했습니다." },
+            { rank: 4, teamKo: "레드불 레이싱", teamEn: "Red Bull Racing", driversKo: "베르스타펜, 하자르", driversEn: "Max Verstappen, Isack Hadjar", points: 128, wins: 0, podiums: 2, events: 9, desc: "포드(Ford)와 새로 합작 개발한 2026 고유 파워유닛을 필두로, 명가 재건 및 주권 수호를 꿈꾸는 에너지 군단." },
+            { rank: 5, teamKo: "알핀", teamEn: "Alpine", driversKo: "가슬리, 콜라핀토", driversEn: "Pierre Gasly, Franco Colapinto", points: 60, wins: 0, podiums: 0, events: 9, desc: "안정적인 하체 셋업과 효율 극대화 프레임을 무기로 복잡하고 테크니컬한 중형 서킷에서 무서운 포인트를 챙깁니다." },
+            { rank: 6, teamKo: "레이싱 불스", teamEn: "Racing Bulls", driversKo: "린드블라드, 로슨", driversEn: "Arvid Lindblad, Liam Lawson", points: 59, wins: 0, podiums: 0, events: 9, desc: "레드불 주니어 출신 영건들로 똘똘 뭉친 공격형 팀. 날렵한 섀시 피드백을 활용하여 중상위권을 사정없이 뒤흔듭니다." },
+            { rank: 7, teamKo: "하스", teamEn: "Haas", driversKo: "오콘, 베어먼", driversEn: "Esteban Ocon, Oliver Bearman", points: 21, wins: 0, podiums: 0, events: 9, desc: "페라리와의 긴밀한 기술 협약과 탄탄한 아메리칸 레이싱 스폰싱 자본으로 무장하여 효율적인 포인트 피드를 사냥합니다." },
+            { rank: 8, teamKo: "아틀라시안 윌리엄스", teamEn: "Atlassian Williams", driversKo: "알본, 사인츠", driversEn: "Alex Albon, Carlos Sainz", points: 11, wins: 0, podiums: 0, events: 9, desc: "사인츠라는 노련한 리더십 영입과 정교한 기계 부품 개발팀 개편을 완료하며 전통 명가의 서막을 다시 씁니다." },
+            { rank: 9, teamKo: "아우디", teamEn: "Audi", driversKo: "휠켄베르크, 보르툴레투", driversEn: "Nico Hulkenberg, Gabriel Bortoleto", points: 8, wins: 0, podiums: 0, events: 9, desc: "포뮬러 원 데뷔전을 치르는 독일 정밀 기계 공학 기술팀. 정교한 전기 유닛 엔지니어링 패널이 돋보입니다." },
+            { rank: 10, teamKo: "애스턴 마틴 아람코", teamEn: "Aston Martin Aramco", driversKo: "스트롤, 알론소", driversEn: "Lance Stroll, Fernando Alonso", points: 1, wins: 0, podiums: 0, events: 9, desc: "최신식 하이테크 팩토리 캠퍼스를 가동하고 혼다(Honda)의 2026 독점 파워유닛 파트너십을 든든한 날개로 단 초호화 프로젝트 팀." },
+            { rank: 11, teamKo: "캐딜락", teamEn: "Cadillac", driversKo: "페레스, 보타스", driversEn: "Sergio Perez, Valtteri Bottas", points: 0, wins: 0, podiums: 0, events: 9, desc: "미국 정통 모터스포츠의 상징적 등장을 보여주는 지엠 캐딜락의 파격적인 그리드 진입. 정밀 데이터를 쌓고 있습니다." }
+        ];
+
+        // High-Quality Custom vector logos for F1 2026 constructors 
+        // to prevent broken image link issues while keeping dark theme elegance.
+        function getConstructorLogoSvg(teamEn, size = 40, bare = false) {
+            const cleanTeam = teamEn.trim().toLowerCase();
+            const externalLogoMap = [
+                {
+                    match: "mclaren",
+                    alt: "McLaren logo",
+                    url: "https://i.namu.wiki/i/nSQTznU1k9ErwwOHbfJxBK67B_wZVYMWopaH_RsANy-Znl6AZDSNIyGOHQ10hoCr1HM09PAdTeVjfjY9XoJhhw.webp"
+                },
+                {
+                    match: "ferrari",
+                    alt: "Ferrari logo",
+                    url: "https://i.namu.wiki/i/ruu18Bf89K2XFbHJmo-xoj9ywXgX1W1cPq_mauFrrqm0gachOmENXsH7ObFO2xw7LeBGZHQDRR6BMjrGbkTnHalLCoTo2upmmDCTCiAdzXOCHmMpx4CSeodivdNmVRNmeKOH4s-6mGZWOfY6HMfl8w.svg"
+                },
+                {
+                    match: "red bull racing",
+                    alt: "Red Bull Racing logo",
+                    url: "https://i.namu.wiki/i/CmQTmb7uUVFZJqqJ7d24WfCHr841Rl3io7XCcgiAQUpbTZpyDvXRm3hYvYfjet_k3hxfXmlhYMgb7zkv-dCFkvhJla6RHOIGjUXkQasPmvPkuCLL7pfxSI-LYcF_k5z2nTU89mfOMuiz-WsuH1E4wQ.svg"
+                },
+                {
+                    match: "mercedes",
+                    alt: "Mercedes logo",
+                    url: "https://i.namu.wiki/i/bIkA6scH8Z38WN6G7FFopZI22mwgz7uwuSY8HvMEPevnprMVYQBSxqUAjTPWXqwsPkKgckvj9pujkN0u4aNg0r9-HLs_frPVpZNbtSXqaG-mQutrS8kzx80GHH4_lPaBOU4t1nRXQtPvn_C8nA-aew.svg"
+                },
+                {
+                    match: "aston martin",
+                    alt: "Aston Martin logo",
+                    url: "https://i.namu.wiki/i/9gFbJAaHjhpZhRKB51NPNM-eVzCH2GxdvUfl8wjkoaRJvrDnFJyESZUrq1O5CZTAl5Ld_zgTBnAXKUe5DT6GrbnwBuGQIYO8PBUx7Lz9OILbadyCfW_nJYitkHQwH7yXTCNUHo7f6eu2Ap5BsBB5QA.svg"
+                },
+                {
+                    match: "alpine",
+                    alt: "Alpine logo",
+                    url: "https://i.namu.wiki/i/0IyZcCPdBXLIoE2qRE6yyh6rt7nI_Hx319ngciOklwY2qbGo3zp0k1V4LvAGwcJGaYNsulLVijeNVxokUuFgCg.webp"
+                },
+                {
+                    match: "williams",
+                    alt: "Williams logo",
+                    url: "https://i.namu.wiki/i/HXMYjpO4mxXseT8mo7WTwtEaCSkAAMg7fp16bCpkAARKjbk-Ub8mKNjA_-YSgaaiaZgxutJ1jxx3VvqtI5MJaijp9ZPQPs-BMbhstAIoi4oIIOS14M8iZSy6u-rmMyRPCpXYlV9SKFkf3YamTMCwFw.webp"
+                },
+                {
+                    match: "racing bulls",
+                    alt: "Racing Bulls logo",
+                    url: "https://i.namu.wiki/i/vbCXJjkiwzUDs6_6cn26VqiuHNUWmVePfkMPB7as3i5ASeVFmg9rYGZPaPvxWwvHHpCxm467iWIWj8k10uwTmfApeB7k7bCfck8mZFtSsYVdqn-G-kmh-t3bowxS-MfHrIRU-h4bZ8b2oOrWwh0Snw.webp"
+                },
+                {
+                    match: "haas",
+                    alt: "Haas logo",
+                    url: "https://i.namu.wiki/i/w98IuJ2RLsVqQ-Aui8mDnHk33OVBjYbBTtK88uCLBS6KzTpI_viWGmok3bZ9_JdMz5BUeseJlRJx-twRdTYhebFqwMCF4IA4DI9dcQx_OTKuK__6CpF2wmd8s4MMFw_JCTsj-xUanF2D5sowASa-Xg.svg"
+                },
+                {
+                    match: "cadillac",
+                    alt: "Cadillac logo",
+                    url: "https://i.namu.wiki/i/fyHHeFgNLvSr2FbdcIBImWKN0z-NVmDyTrU4kGQhwUq3tGhSOHshWt11vJyXYxecgwS9t5i4s62pMqbMRA7j0A.svg"
+                }
+            ];
+            const externalLogo = externalLogoMap.find((logo) => cleanTeam.includes(logo.match));
+
+            if (externalLogo) {
+                const logoFilter = ["aston martin", "cadillac"].some((team) => cleanTeam.includes(team))
+                    ? "filter: brightness(0) invert(1);"
+                    : "";
+                if (bare) {
+                    return `<img src="${externalLogo.url}" alt="${externalLogo.alt}" class="object-contain" style="width: ${size}px; height: ${size}px; ${logoFilter}" onerror="this.outerHTML='<span class=&quot;font-orbitron text-[10px] font-black text-f1-red&quot;>${teamEn.slice(0, 3).toUpperCase()}</span>'">`;
+                }
+                return `
+                    <div class="flex items-center justify-center bg-white/10 backdrop-blur-sm p-1.5 rounded-lg border border-white/5" style="width: ${size}px; height: ${size}px;">
+                        <img src="${externalLogo.url}" alt="${externalLogo.alt}" class="w-full h-full object-contain" style="${logoFilter}" onerror="this.outerHTML='<span class=&quot;font-orbitron text-[10px] font-black text-f1-red&quot;>${teamEn.slice(0, 3).toUpperCase()}</span>'">
+                    </div>
+                `;
+            }
+            let paths = "";
+            let viewBox = "0 0 100 100";
+            
+            if (cleanTeam.includes("mercedes")) {
+                // Classic 3-Pointed Star
+                paths = `<circle cx="50" cy="50" r="44" stroke="#FFF" stroke-width="4" fill="none"/>
+                         <path d="M50 8 L50 50 L12 72 M50 50 L88 72" stroke="#FFF" stroke-width="6" stroke-linecap="round"/>`;
+            } else if (cleanTeam.includes("ferrari")) {
+                // Prancing Horse Shield outline and symbol
+                paths = `<path d="M15 10 L85 10 L85 55 C85 75 50 92 50 92 C50 92 15 75 15 55 Z" fill="#FFEB3B"/>
+                         <path d="M50 20 C42 35 34 40 38 52 C40 56 46 54 44 65 C43 72 54 75 52 50 C50 40 56 36 50 20 Z" fill="#000" />
+                         <rect x="30" y="10" width="40" height="3" fill="#4CAF50"/>
+                         <rect x="30" y="13" width="40" height="3" fill="#FFF"/>
+                         <rect x="30" y="16" width="40" height="3" fill="#F44336"/>`;
+            } else if (cleanTeam.includes("mclaren")) {
+                // Orange speedmark crescent
+                paths = `<path d="M10 50 C25 25 75 25 90 40 C70 55 35 55 10 50 Z" fill="#FF9800"/>`;
+            } else if (cleanTeam.includes("alpine")) {
+                // Alpine blue styled letter A
+                paths = `<path d="M50 10 L15 85 L35 85 L50 48 L65 85 L85 85 Z" fill="#2196F3"/>
+                         <path d="M42 58 L58 58 L50 42 Z" fill="#FFF"/>
+                         <path d="M15 80 L85 80" stroke="#F44336" stroke-width="5"/>`;
+            } else if (cleanTeam.includes("racing bulls") || cleanTeam === "rb") {
+                // Metallic square with RB
+                paths = `<rect x="10" y="10" width="80" height="80" rx="15" fill="#0D47A1" stroke="#FFF" stroke-width="2"/>
+                         <text x="50" y="58" fill="#FFF" font-family="'Orbitron', sans-serif" font-weight="900" font-size="34" text-anchor="middle">RB</text>`;
+            } else if (cleanTeam.includes("haas")) {
+                // Rounded red/white H logo
+                paths = `<circle cx="50" cy="50" r="44" fill="#E53935"/>
+                         <path d="M30 25 L30 75 L42 75 L42 56 L58 56 L58 75 L70 75 L70 25 L58 25 L58 44 L42 44 L42 25 Z" fill="#FFF"/>`;
+            } else if (cleanTeam.includes("williams")) {
+                // Blue Williams W
+                paths = `<path d="M10 25 L24 25 L38 70 L48 35 L58 35 L68 70 L82 25 L94 25 L76 85 L62 85 L52 48 L42 85 L28 85 Z" fill="#1976D2"/>`;
+            } else if (cleanTeam.includes("audi")) {
+                // Interlocking 4 rings
+                viewBox = "0 0 160 60";
+                paths = `<circle cx="30" cy="30" r="22" stroke="#FFF" stroke-width="5" fill="none"/>
+                         <circle cx="62" cy="30" r="22" stroke="#FFF" stroke-width="5" fill="none"/>
+                         <circle cx="94" cy="30" r="22" stroke="#FFF" stroke-width="5" fill="none"/>
+                         <circle cx="126" cy="30" r="22" stroke="#FFF" stroke-width="5" fill="none"/>`;
+            } else if (cleanTeam.includes("aston martin")) {
+                // Deep green wing outline
+                viewBox = "0 0 120 60";
+                paths = `<path d="M5 30 C30 15 90 15 115 30 C85 35 35 35 5 30 Z" fill="#004D40"/>
+                         <path d="M15 30 L105 30" stroke="#FFF" stroke-width="2"/>
+                         <path d="M35 22 L85 22" stroke="#FFF" stroke-width="1"/>`;
+            } else if (cleanTeam.includes("cadillac")) {
+                // Crest shield
+                paths = `<path d="M50 10 L85 25 L85 60 C85 80 50 92 50 92 C50 92 15 80 15 60 L15 25 Z" fill="#CFD8DC" stroke="#37474F" stroke-width="4"/>
+                         <rect x="25" y="30" width="50" height="30" fill="#37474F" rx="2"/>
+                         <path d="M50 10 L50 92" stroke="#37474F" stroke-width="2"/>`;
+            } else {
+                // Fallback default
+                paths = `<circle cx="50" cy="50" r="40" fill="#ff1801"/>`;
+            }
+
+            if (bare) {
+                return `
+                    <svg viewBox="${viewBox}" class="object-contain" style="width: ${size}px; height: ${size}px; display: block;">
+                        ${paths}
+                    </svg>
+                `;
+            }
+
+            return `
+                <div class="flex items-center justify-center bg-white/10 backdrop-blur-sm p-1.5 rounded-lg border border-white/5" style="width: ${size}px; height: ${size}px;">
+                    <svg viewBox="${viewBox}" class="w-full h-full" style="display: block;">
+                        ${paths}
+                    </svg>
+                </div>
+            `;
+        }
+
+        function renderTeamFilterLogos() {
+            document.querySelectorAll(".filter-logo").forEach((slot) => {
+                const teamName = slot.getAttribute("data-logo-team");
+                const button = slot.closest("button");
+                if (button) {
+                    button.innerHTML = getConstructorLogoSvg(teamName, 36, true);
+                }
+            });
+        }
+
+        // 22 Regular Grand Prix Rounds Data
+        const TRACKS_DATA = [
+            {
+                round: 1, date: "3/6-8", countryKo: "호주", cityKo: "멜버른", circuitKo: "앨버트 파크 그랑프리 서킷",
+                poleTeam: "메르세데스", poleDriver: "조지 러셀",
+                fastestLapTeam: "레드불 레이싱", fastestLapDriver: "막스 베르스타펜",
+                winnerTeam: "메르세데스", winnerDriver: "조지 러셀",
+                status: "완료"
+            },
+            {
+                round: 2, date: "3/13-15", countryKo: "중국", cityKo: "상하이", circuitKo: "상하이 인터내셔널 서킷",
+                poleTeam: "메르세데스", poleDriver: "키미 안토넬리",
+                fastestLapTeam: "메르세데스", fastestLapDriver: "키미 안토넬리",
+                winnerTeam: "메르세데스", winnerDriver: "키미 안토넬리",
+                status: "완료"
+            },
+            {
+                round: 3, date: "3/27-29", countryKo: "일본", cityKo: "스즈카", circuitKo: "스즈카 서킷",
+                poleTeam: "메르세데스", poleDriver: "키미 안토넬리",
+                fastestLapTeam: "메르세데스", fastestLapDriver: "키미 안토넬리",
+                winnerTeam: "메르세데스", winnerDriver: "키미 안토넬리",
+                status: "완료"
+            },
+            {
+                round: 4, date: "5/2-4", countryKo: "미국", cityKo: "마이애미", circuitKo: "마이애미 인터내셔널 오토드롬",
+                poleTeam: "메르세데스", poleDriver: "키미 안토넬리",
+                fastestLapTeam: "맥라렌", fastestLapDriver: "랜도 노리스",
+                winnerTeam: "메르세데스", winnerDriver: "키미 안토넬리",
+                status: "완료"
+            },
+            {
+                round: 5, date: "5/23-25", countryKo: "캐나다", cityKo: "몬트리올", circuitKo: "질 빌르너브 서킷",
+                poleTeam: "메르세데스", poleDriver: "조지 러셀",
+                fastestLapTeam: "메르세데스", fastestLapDriver: "키미 안토넬리",
+                winnerTeam: "메르세데스", winnerDriver: "키미 안토넬리",
+                status: "완료"
+            },
+            {
+                round: 6, date: "6/5-7", countryKo: "모나코", cityKo: "모나코", circuitKo: "모나코 서킷",
+                poleTeam: "메르세데스", poleDriver: "키미 안토넬리",
+                fastestLapTeam: "메르세데스", fastestLapDriver: "키미 안토넬리",
+                winnerTeam: "메르세데스", winnerDriver: "키미 안토넬리",
+                status: "완료"
+            },
+            {
+                round: 7, date: "6/12-14", countryKo: "스페인", cityKo: "바르셀로나-카탈루냐", circuitKo: "바르셀로나-카탈루냐 서킷",
+                poleTeam: "메르세데스", poleDriver: "조지 러셀",
+                fastestLapTeam: "페라리", fastestLapDriver: "루이스 해밀턴",
+                winnerTeam: "페라리", winnerDriver: "루이스 해밀턴",
+                status: "완료"
+            },
+            {
+                round: 8, date: "6/26-28", countryKo: "오스트리아", cityKo: "스필버그", circuitKo: "레드불링",
+                poleTeam: "메르세데스", poleDriver: "조지 러셀",
+                fastestLapTeam: "메르세데스", fastestLapDriver: "키미 안토넬리",
+                winnerTeam: "메르세데스", winnerDriver: "조지 러셀",
+                status: "완료"
+            },
+            {
+                round: 9, date: "7/3-5", countryKo: "영국", cityKo: "실버스톤", circuitKo: "실버스톤 서킷",
+                poleTeam: "메르세데스", poleDriver: "키미 안토넬리",
+                fastestLapTeam: "메르세데스", fastestLapDriver: "키미 안토넬리",
+                winnerTeam: "페라리", winnerDriver: "샤를 르클레르",
+                status: "완료"
+            },
+            {
+                round: 10, date: "7/17-19", countryKo: "벨기에", cityKo: "스파-프랑코샹", circuitKo: "스파-프랑코샹 서킷",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 11, date: "7/24-26", countryKo: "헝가리", cityKo: "부다페스트", circuitKo: "헝가로링",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 12, date: "8/21-23", countryKo: "네덜란드", cityKo: "잔드보르트", circuitKo: "잔드보르트 서킷",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 13, date: "9/4-6", countryKo: "이탈리아", cityKo: "몬차", circuitKo: "아우토드로모 나치오날레 몬차",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 14, date: "9/11-13", countryKo: "스페인", cityKo: "마드리드", circuitKo: "마드리드 스트리트 서킷 (마드링)",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 15, date: "9/24-26", countryKo: "아제르바이잔", cityKo: "바쿠", circuitKo: "바쿠 시티 서킷",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 16, date: "10/9-11", countryKo: "싱가포르", cityKo: "싱가포르", circuitKo: "마리나 베이 스트리트 서킷",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 17, date: "10/24-26", countryKo: "미국", cityKo: "오스틴", circuitKo: "서킷 오브 디 아메리카스",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 18, date: "10/31-11/2", countryKo: "멕시코", cityKo: "멕시코 시티", circuitKo: "아우토드로모 에르마노스 로드리게스",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 19, date: "11/7-9", countryKo: "브라질", cityKo: "상파울루", circuitKo: "아우토드로무 주제 카를루스 파시",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 20, date: "11/20-22", countryKo: "미국", cityKo: "라스베이거스", circuitKo: "라스베이거스 스트립 서킷",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 21, date: "11/27-30", countryKo: "카타르", cityKo: "루사일", circuitKo: "루사일 인터내셔널 서킷",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            },
+            {
+                round: 22, date: "12/4-6", countryKo: "아랍에미리트", cityKo: "아부다비", circuitKo: "야스 마리나 서킷",
+                poleTeam: "미정", poleDriver: "미정",
+                fastestLapTeam: "미정", fastestLapDriver: "미정",
+                winnerTeam: "미정", winnerDriver: "미정",
+                status: "예정"
+            }
+        ];
+
+        // Cancelled Grands Prix Data (Separate section)
+        const CANCELLED_TRACKS_DATA = [
+            {
+                name: "바레인 그랑프리", nameEn: "Bahrain GP", countryKo: "바레인", cityKo: "사키르", circuitKo: "바레인 인터내셔널 서킷", status: "취소"
+            },
+            {
+                name: "사우디아라비아 그랑프리", nameEn: "Saudi Arabian GP", countryKo: "사우디아라비아", cityKo: "제다", circuitKo: "제다 코니쉬 서킷", status: "취소"
+            }
+        ];
+
+        // 2026 Season Column Constants (Explicitly mapping headers as requested)
+        const RACE_COLUMNS = ["AUS", "CHN", "JPN", "MIA", "CAN", "MCO", "ESP", "AUT", "GBR", "BEL", "HUN", "NLD", "ITA", "MAD", "AZE", "SGP", "USA", "MEX", "BRA", "VGS", "QAT", "UAE"];
+        const SPRINT_COLUMNS = ["CHN", "MIA", "CAN", "GBR", "NLD", "SGP"];
+
+        let currentStandingView = "race"; // Default view in sub toggle
+
+        // ==========================================
+        // 2. RENDERING LOGIC WITH TEAM EMBLEMS
+        // ==========================================
+
+        function renderDrivers(filterTeam = "all") {
+            const grid = document.getElementById("driversGrid");
+            grid.innerHTML = "";
+            
+            const filtered = filterTeam === "all" 
+                ? DRIVERS_DATA 
+                : DRIVERS_DATA.filter(d => d.teamEn.toLowerCase().includes(filterTeam.toLowerCase()) || d.teamKo.toLowerCase().includes(filterTeam.toLowerCase()));
+
+            filtered.forEach(driver => {
+                const card = document.createElement("div");
+                const teamLogoMarkup = getConstructorLogoSvg(driver.teamEn, 36);
+                const driverPhotoMarkup = driver.imageUrl
+                    ? `<div class="absolute right-2 -top-12 bottom-0 w-52 overflow-hidden pointer-events-none transition-all duration-300">
+                            <img src="${driver.imageUrl}" alt="${driver.nameKo} portrait" class="w-full h-full object-cover object-top opacity-100" onerror="this.closest('div').remove()">
+                       </div>`
+                    : "";
+                card.className = "driver-grid-card bg-neutral-950/80 border border-neutral-800 rounded-xl p-5 hover:border-f1-red cursor-pointer transition-all duration-300 flex flex-col justify-between group relative overflow-visible backdrop-blur-sm";
+                card.setAttribute("onclick", `openDriverModal(${driver.rank})`);
+                
+                card.innerHTML = `
+                    <div class="absolute top-0 left-0 w-full h-1 bg-neutral-800 group-hover:bg-f1-red transition-all"></div>
+                    ${driverPhotoMarkup}
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-orbitron font-black text-xl italic ${driver.rank <= 3 ? 'text-f1-red' : 'text-gray-600'}">P${driver.rank}</span>
+                            <div class="flex items-center justify-center" title="${driver.teamKo} / ${driver.teamEn}">
+                                ${teamLogoMarkup}
+                            </div>
+                        </div>
+                        <div class="relative z-10">
+                            <h3 class="font-bold text-white text-lg group-hover:text-f1-red transition-colors duration-200">${driver.nameKo}</h3>
+                            <p class="text-xs text-gray-400 font-medium italic font-orbitron tracking-wide">${driver.nameEn}</p>
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 mt-5 flex flex-col items-start gap-1">
+                        <span class="block text-[9px] text-gray-500 font-bold uppercase tracking-widest">SEASON PTS</span>
+                        <span class="font-orbitron text-base font-black text-f1-red">${driver.points} <span class="text-[10px] text-gray-400">pts</span></span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderConstructors() {
+            const grid = document.getElementById("constructorsGrid");
+            grid.innerHTML = "";
+
+            CONSTRUCTORS_DATA.forEach(team => {
+                const card = document.createElement("div");
+                card.className = "constructor-grid-card bg-neutral-950/80 border border-neutral-800 rounded-xl p-5 hover:border-f1-red cursor-pointer transition-all duration-300 flex flex-col justify-between group relative overflow-visible backdrop-blur-sm";
+                card.setAttribute("onclick", `openConstructorModal(${team.rank})`);
+
+                const logoMarkup = getConstructorLogoSvg(team.teamEn, 46);
+
+                card.innerHTML = `
+                    <div class="absolute top-0 left-0 w-full h-1 bg-neutral-800 group-hover:bg-white transition-all"></div>
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-orbitron font-black text-xl italic ${team.rank <= 3 ? 'text-f1-red' : 'text-gray-600'}">#${team.rank}</span>
+                            <div>${logoMarkup}</div>
+                        </div>
+                        <h3 class="font-bold text-white text-lg group-hover:text-f1-red transition-colors duration-200">${team.teamKo}</h3>
+                        <p class="text-xs text-gray-400 font-medium italic font-orbitron tracking-wide mb-3">${team.teamEn}</p>
+                        
+                        <div class="bg-black/30 border border-neutral-800/40 p-2.5 rounded-lg mb-4">
+                            <span class="block text-[8px] text-f1-red font-bold uppercase tracking-wider mb-1">LINEUP</span>
+                            <span class="text-xs font-semibold text-white block">${team.driversKo}</span>
+                            <span class="text-[9px] text-gray-400 block">${team.driversEn}</span>
+                        </div>
+
+                        <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${team.desc}</p>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-neutral-800/80 flex justify-between items-center">
+                        <span class="block text-[9px] text-gray-500 font-bold uppercase tracking-widest">TOTAL PTS</span>
+                        <span class="font-orbitron text-base font-black text-white">${team.points} <span class="text-[10px] text-gray-400">pts</span></span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderStandings() {
+            // Render Driver Standings Table Header & Body
+            const headerRow = document.getElementById("tableHeaderRow");
+            headerRow.innerHTML = "";
+
+            // Left Sticky Headers
+            const stickyHeaders = `
+                <th class="py-4 px-3 text-center sticky-col-rank bg-neutral-900 border-r border-neutral-800 w-12">Rank</th>
+                <th class="py-4 px-4 sticky-col-driver bg-neutral-900 border-r border-neutral-800 w-44">Driver</th>
+            `;
+            headerRow.insertAdjacentHTML("beforeend", stickyHeaders);
+
+            // Active Columns based on Race or Sprint Results sub toggle
+            const cols = currentStandingView === "race" ? RACE_COLUMNS : SPRINT_COLUMNS;
+            cols.forEach(col => {
+                headerRow.insertAdjacentHTML("beforeend", `<th class="py-4 px-2 text-center font-orbitron text-[9px] min-w-[50px] border-r border-neutral-900">${col}</th>`);
+            });
+
+            // Right Sticky Header
+            headerRow.insertAdjacentHTML("beforeend", `<th class="py-4 px-4 text-right font-orbitron sticky-col-totals bg-neutral-900 text-white w-20">TOTAL</th>`);
+
+            const dBody = document.getElementById("driverStandingsBody");
+            dBody.innerHTML = "";
+
+            DRIVERS_DATA.forEach(d => {
+                const tr = document.createElement("tr");
+                const rowHighlightClass = d.rank === 1 
+                    ? "bg-f1-red/10 border-l-4 border-f1-red hover:bg-f1-red/15" 
+                    : "hover:bg-neutral-900/30";
+                
+                tr.className = `${rowHighlightClass} transition-colors border-b border-neutral-900/60`;
+
+                // Set sticky column backgrounds dynamically
+                const stickyBgRank = d.rank === 1 ? "bg-[#1f0504]" : "bg-[#0b0c10]";
+                const stickyBgDriver = d.rank === 1 ? "bg-[#1f0504]" : "bg-[#0b0c10]";
+                const stickyBgTotals = d.rank === 1 ? "bg-[#1a0403]" : "bg-[#0b0c10]";
+
+                let cellsMarkup = `
+                    <td class="py-3 px-3 text-center sticky-col-rank ${stickyBgRank} border-r border-neutral-800">
+                        <span class="inline-block font-orbitron font-bold text-[10px] bg-neutral-900 text-neutral-300 w-7 py-0.5 rounded">
+                            ${d.rank}
+                        </span>
+                    </td>
+                    <td class="py-3 px-4 sticky-col-driver ${stickyBgDriver} border-r border-neutral-800">
+                        <span class="font-bold text-white block text-xs truncate">${d.nameKo}</span>
+                        <span class="text-[8px] text-gray-500 font-mono block truncate">${d.teamEn}</span>
+                    </td>
+                `;
+
+                // Render dynamic results (DNF, Gold-badge, Gray cells)
+                const currentResults = currentStandingView === "race" ? d.raceResults : d.sprintResults;
+                currentResults.forEach((res) => {
+                    let innerMarkup = res;
+
+                    if (res === "1") {
+                        innerMarkup = `<span class="inline-block bg-yellow-500 text-black font-orbitron font-extrabold text-[9px] w-6 py-0.5 rounded text-center shadow-lg">1</span>`;
+                    } else if (res === "2") {
+                        innerMarkup = `<span class="inline-block bg-neutral-300 text-black font-orbitron font-bold text-[9px] w-6 py-0.5 rounded text-center">2</span>`;
+                    } else if (res === "3") {
+                        innerMarkup = `<span class="inline-block bg-amber-700 text-white font-orbitron font-bold text-[9px] w-6 py-0.5 rounded text-center">3</span>`;
+                    } else if (["DNF", "DNS", "NC", "Ret", "DSQ"].includes(res)) {
+                        innerMarkup = `<span class="inline-block text-f1-red font-bold font-mono text-[9px] tracking-tighter">${res}</span>`;
+                    } else if (res === "-") {
+                        innerMarkup = `<span class="text-neutral-600 font-light">-</span>`;
+                    }
+
+                    cellsMarkup += `<td class="py-3 px-1 text-center border-r border-neutral-900/60 font-orbitron text-[10px]">${innerMarkup}</td>`;
+                });
+
+                cellsMarkup += `
+                    <td class="py-3 px-4 text-right font-orbitron font-black text-white sticky-col-totals ${stickyBgTotals} text-xs">
+                        ${d.points} <span class="text-[9px] text-neutral-500 font-light">PTS</span>
+                    </td>
+                `;
+
+                tr.innerHTML = cellsMarkup;
+                dBody.appendChild(tr);
+            });
+
+            // Team Standings Rendering
+            const tBody = document.getElementById("teamStandingsBody");
+            tBody.innerHTML = "";
+            CONSTRUCTORS_DATA.forEach(t => {
+                const tr = document.createElement("tr");
+                const rowStyle = t.rank === 1 
+                    ? "bg-f1-red/10 border-l-4 border-f1-red hover:bg-f1-red/15 transition-colors" 
+                    : "hover:bg-neutral-800/40 transition-colors";
+
+                const inlineLogo = getConstructorLogoSvg(t.teamEn, 24);
+
+                tr.className = `${rowStyle}`;
+                tr.innerHTML = `
+                    <td class="py-4 px-4 text-center">
+                        <span class="inline-block font-orbitron font-bold text-xs bg-neutral-900 border border-neutral-800 text-neutral-300 w-8 py-1 rounded">
+                            #${t.rank}
+                        </span>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center gap-3">
+                            ${inlineLogo}
+                            <div>
+                                <span class="font-bold text-white block text-xs md:text-sm">${t.teamKo}</span>
+                                <span class="text-[9px] text-gray-500 font-mono block">${t.teamEn}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">
+                        <span class="font-semibold text-neutral-300 block text-xs">${t.driversKo}</span>
+                        <span class="text-[8px] text-gray-500 font-mono block">${t.driversEn}</span>
+                    </td>
+                    <td class="py-4 px-4 text-center font-orbitron text-neutral-400 text-xs">${t.wins}</td>
+                    <td class="py-4 px-4 text-center font-orbitron text-neutral-400 text-xs">${t.podiums}</td>
+                    <td class="py-4 px-4 text-center font-orbitron text-neutral-400 text-xs">${t.events}</td>
+                    <td class="py-4 px-6 text-right font-orbitron font-black text-white text-sm md:text-base">${t.points} <span class="text-[10px] text-neutral-500">PTS</span></td>
+                `;
+                tBody.appendChild(tr);
+            });
+        }
+
+        // Standings Tab Selector Handler
+        function switchStandingsTab(tab) {
+            const dContainer = document.getElementById("driverStandingsTableContainer");
+            const tContainer = document.getElementById("teamStandingsTableContainer");
+            const dBtn = document.getElementById("tabDriverBtn");
+            const tBtn = document.getElementById("tabTeamBtn");
+
+            if (tab === 'driver') {
+                dContainer.classList.replace("hidden", "block");
+                tContainer.classList.replace("block", "hidden");
+                dBtn.className = "flex-1 text-center py-3 font-orbitron font-bold text-xs tracking-wider uppercase border-b-2 border-f1-red text-white transition-all duration-300";
+                tBtn.className = "flex-1 text-center py-3 font-orbitron font-bold text-xs tracking-wider uppercase border-b-2 border-transparent text-gray-500 hover:text-white transition-all duration-300";
+            } else {
+                dContainer.classList.replace("block", "hidden");
+                tContainer.classList.replace("hidden", "block");
+                dBtn.className = "flex-1 text-center py-3 font-orbitron font-bold text-xs tracking-wider uppercase border-b-2 border-transparent text-gray-500 hover:text-white transition-all duration-300";
+                tBtn.className = "flex-1 text-center py-3 font-orbitron font-bold text-xs tracking-wider uppercase border-b-2 border-f1-red text-white transition-all duration-300";
+            }
+        }
+
+        // Toggle Driver view between race and sprint matrix
+        function toggleResultView(viewType) {
+            currentStandingView = viewType;
+            const rBtn = document.getElementById("subRaceBtn");
+            const sBtn = document.getElementById("subSprintBtn");
+
+            if (viewType === "race") {
+                rBtn.className = "px-4 py-2 bg-f1-red text-white text-[10px] font-orbitron font-black italic rounded border border-f1-red transition-all";
+                sBtn.className = "px-4 py-2 bg-neutral-900 text-gray-400 hover:text-white text-[10px] font-orbitron font-black italic rounded border border-neutral-800 hover:border-neutral-700 transition-all";
+            } else {
+                rBtn.className = "px-4 py-2 bg-neutral-900 text-gray-400 hover:text-white text-[10px] font-orbitron font-black italic rounded border border-neutral-800 hover:border-neutral-700 transition-all";
+                sBtn.className = "px-4 py-2 bg-f1-red text-white text-[10px] font-orbitron font-black italic rounded border border-f1-red transition-all";
+            }
+            renderStandings();
+        }
+
+        function renderTracks() {
+            const grid = document.getElementById("tracksGrid");
+            grid.innerHTML = "";
+
+            TRACKS_DATA.forEach((track) => {
+                const isCompleted = track.status === "완료";
+                const borderClass = isCompleted ? "border-f1-red/30 hover:border-f1-red" : "border-neutral-800 hover:border-neutral-600";
+                const opacityClass = isCompleted ? "" : "opacity-90";
+                
+                const statusBadge = isCompleted 
+                    ? `<span class="bg-f1-red text-white text-[9px] font-bold px-2 py-0.5 rounded italic uppercase">완료</span>`
+                    : `<span class="bg-neutral-800 text-gray-400 text-[9px] font-bold px-2 py-0.5 rounded italic uppercase">예정</span>`;
+
+                const card = document.createElement("div");
+                card.className = `bg-neutral-900/40 border ${borderClass} ${opacityClass} rounded-xl p-5 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between group relative`;
+                card.setAttribute("onclick", `openTrackModal(${track.round}, false)`);
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-orbitron text-xs font-bold text-f1-red italic uppercase">ROUND ${track.round}</span>
+                            ${statusBadge}
+                        </div>
+                        <div class="flex justify-between items-baseline mb-2">
+                            <h3 class="font-bold text-white text-sm md:text-base leading-tight group-hover:text-f1-red transition-colors">${track.countryKo} (${track.cityKo})</h3>
+                            <span class="text-[9px] font-mono text-gray-400">${track.date}</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500 mb-4 line-clamp-1 font-mono">${track.circuitKo}</p>
+                        
+                        <!-- Quick Stats Block -->
+                        <div class="bg-black/30 rounded-lg p-3 text-[10px] space-y-1.5 border border-neutral-800/40">
+                            <div class="flex justify-between text-gray-400">
+                                <span>폴 포지션:</span>
+                                <span class="text-white font-semibold">${isCompleted ? `${track.poleDriver} (${track.poleTeam})` : '미정'}</span>
+                            </div>
+                            <div class="flex justify-between text-gray-400">
+                                <span>최속 랩:</span>
+                                <span class="text-white font-semibold">${isCompleted ? `${track.fastestLapDriver} (${track.fastestLapTeam})` : '미정'}</span>
+                            </div>
+                            <div class="flex justify-between text-gray-400 border-t border-neutral-800/40 pt-1.5 mt-1">
+                                <span class="text-f1-red font-bold">우승자:</span>
+                                <span class="text-f1-red font-bold">${isCompleted ? `${track.winnerDriver} (${track.winnerTeam})` : '미정'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-neutral-800/50 flex justify-between items-center text-[9px] text-gray-400">
+                        <span>${isCompleted ? '결과 완료' : '상세 일정 준비중'}</span>
+                        <span class="text-f1-red font-bold group-hover:underline">상세 분석 &gt;</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Cancelled GP Cards
+            const cancelledGrid = document.getElementById("cancelledTracksGrid");
+            cancelledGrid.innerHTML = "";
+
+            CANCELLED_TRACKS_DATA.forEach((track, index) => {
+                const card = document.createElement("div");
+                card.className = "bg-neutral-950/80 border border-neutral-900/60 rounded-xl p-4 flex flex-col justify-between opacity-60 relative overflow-hidden group hover:opacity-85 transition-all duration-300 cursor-pointer";
+                card.setAttribute("onclick", `openTrackModal(${index}, true)`);
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="text-[8px] bg-red-950 text-f1-red font-bold px-2 py-0.5 rounded italic uppercase">취소</span>
+                            <h4 class="font-bold text-gray-400 text-xs mt-1.5 line-through decoration-f1-red/60">${track.name}</h4>
+                            <p class="text-[9px] text-gray-500 font-mono">${track.nameEn}</p>
+                        </div>
+                        <span class="text-[9px] text-gray-600 font-bold tracking-widest uppercase">${track.countryKo} (${track.cityKo})</span>
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-neutral-900/60 flex justify-between items-center text-[9px] text-gray-600">
+                        <span class="line-through">${track.circuitKo}</span>
+                        <span class="text-gray-500 hover:text-white transition-colors">데이터 분석 &gt;</span>
+                    </div>
+                `;
+                cancelledGrid.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // 3. INTERACTIVE MODAL ACTIONS
+        // ==========================================
+
+        function openDriverModal(rank) {
+            const driver = DRIVERS_DATA.find(d => d.rank === rank);
+            if (!driver) return;
+
+            const modalDriverTeamTag = document.getElementById("modalDriverTeamTag");
+            modalDriverTeamTag.innerHTML = getConstructorLogoSvg(driver.teamEn, 52);
+            modalDriverTeamTag.title = `${driver.teamKo} (${driver.teamEn})`;
+            const modalDriverPhotoWrap = document.getElementById("modalDriverPhotoWrap");
+            const modalDriverPhoto = document.getElementById("modalDriverPhoto");
+            if (driver.imageUrl) {
+                modalDriverPhoto.src = driver.imageUrl;
+                modalDriverPhoto.alt = `${driver.nameKo} portrait`;
+                modalDriverPhotoWrap.classList.remove("hidden");
+            } else {
+                modalDriverPhoto.removeAttribute("src");
+                modalDriverPhotoWrap.classList.add("hidden");
+            }
+            document.getElementById("modalDriverName").innerText = driver.nameKo;
+            document.getElementById("modalDriverNameEn").innerText = driver.nameEn;
+            document.getElementById("modalDriverRank").innerText = `P${driver.rank}`;
+            document.getElementById("modalDriverPoints").innerText = `${driver.points} pts`;
+            document.getElementById("modalDriverDebutYear").innerText = driver.debutYear ?? "-";
+            document.getElementById("modalDriverBestRank").innerText = driver.bestChampionshipRank ?? "-";
+            document.getElementById("modalDriverGpWins").innerText = driver.grandPrixWins ?? "-";
+
+            const modal = document.getElementById("driverModal");
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                document.getElementById("driverModalContent").classList.remove("scale-95");
+                document.getElementById("driverModalContent").classList.add("scale-100");
+            }, 10);
+        }
+
+        function closeDriverModal() {
+            document.getElementById("driverModalContent").classList.remove("scale-100");
+            document.getElementById("driverModalContent").classList.add("scale-95");
+            setTimeout(() => {
+                document.getElementById("driverModal").classList.add("hidden");
+            }, 150);
+        }
+
+        function openConstructorModal(rank) {
+            const team = CONSTRUCTORS_DATA.find(c => c.rank === rank);
+            if (!team) return;
+
+            document.getElementById("modalConstructorRank").innerText = `CHAMPIONSHIP RANK #${team.rank}`;
+            document.getElementById("modalConstructorTeam").innerText = team.teamKo;
+            document.getElementById("modalConstructorTeamEn").innerText = team.teamEn;
+            document.getElementById("modalConstructorDriversKo").innerText = team.driversKo;
+            document.getElementById("modalConstructorDriversEn").innerText = team.driversEn;
+            document.getElementById("modalConstructorDetailRank").innerText = `#${team.rank}`;
+            document.getElementById("modalConstructorPoints").innerText = `${team.points} pts`;
+            document.getElementById("modalConstructorDesc").innerText = team.desc;
+
+            // Inject 64px large vector emblem into modal popup
+            const logoContainer = document.getElementById("modalConstructorLogoContainer");
+            logoContainer.innerHTML = getConstructorLogoSvg(team.teamEn, 64);
+
+            const modal = document.getElementById("constructorModal");
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                document.getElementById("constructorModalContent").classList.remove("scale-95");
+                document.getElementById("constructorModalContent").classList.add("scale-100");
+            }, 10);
+        }
+
+        function closeConstructorModal() {
+            document.getElementById("constructorModalContent").classList.remove("scale-100");
+            document.getElementById("constructorModalContent").classList.add("scale-95");
+            setTimeout(() => {
+                document.getElementById("constructorModal").classList.add("hidden");
+            }, 150);
+        }
+
+        function openTrackModal(id, isCancelled = false) {
+            let track;
+            if (isCancelled) {
+                const originalTrack = CANCELLED_TRACKS_DATA[id];
+                track = {
+                    round: "CANCELLED",
+                    date: "OFF-CALENDAR",
+                    countryKo: originalTrack.countryKo,
+                    cityKo: originalTrack.cityKo,
+                    circuitKo: originalTrack.circuitKo,
+                    poleTeam: "취소됨",
+                    poleDriver: "취소됨",
+                    fastestLapTeam: "취소됨",
+                    fastestLapDriver: "취소됨",
+                    winnerTeam: "취소됨",
+                    winnerDriver: "취소됨",
+                    status: "취소"
+                };
+            } else {
+                track = TRACKS_DATA.find(t => t.round === id);
+            }
+            if (!track) return;
+
+            document.getElementById("modalTrackRound").innerText = track.round === "CANCELLED" ? "CANCELLED" : `ROUND ${track.round}`;
+            document.getElementById("modalTrackDate").innerText = track.date;
+            document.getElementById("modalTrackCircuit").innerText = track.circuitKo;
+            document.getElementById("modalTrackLocation").innerText = `${track.countryKo} (${track.cityKo})`;
+
+            const badgeEl = document.getElementById("modalTrackStatusBadge");
+            badgeEl.innerText = track.status;
+            if (track.status === "완료") {
+                badgeEl.className = "text-[9px] bg-red-600 text-white font-bold px-2.5 py-0.5 rounded italic uppercase";
+            } else if (track.status === "예정") {
+                badgeEl.className = "text-[9px] bg-neutral-800 text-gray-400 font-bold px-2.5 py-0.5 rounded italic uppercase";
+            } else {
+                badgeEl.className = "text-[9px] bg-red-950 text-f1-red font-bold px-2.5 py-0.5 rounded italic uppercase";
+            }
+
+            document.getElementById("modalTrackPoleDriver").innerText = track.poleDriver;
+            document.getElementById("modalTrackPoleTeam").innerText = track.poleTeam;
+            document.getElementById("modalTrackFastestDriver").innerText = track.fastestLapDriver;
+            document.getElementById("modalTrackFastestTeam").innerText = track.fastestLapTeam;
+            document.getElementById("modalTrackWinnerDriver").innerText = track.winnerDriver;
+            document.getElementById("modalTrackWinnerTeam").innerText = track.winnerTeam;
+
+            const modal = document.getElementById("trackModal");
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                document.getElementById("trackModalContent").classList.remove("scale-95");
+                document.getElementById("trackModalContent").classList.add("scale-100");
+            }, 10);
+        }
+
+        function closeTrackModal() {
+            document.getElementById("trackModalContent").classList.remove("scale-100");
+            document.getElementById("trackModalContent").classList.add("scale-95");
+            setTimeout(() => {
+                document.getElementById("trackModal").classList.add("hidden");
+            }, 150);
+        }
+
+        // Close modals on background overlay click
+        window.onclick = function(event) {
+            const dModal = document.getElementById("driverModal");
+            const cModal = document.getElementById("constructorModal");
+            const tModal = document.getElementById("trackModal");
+            if (event.target === dModal) closeDriverModal();
+            if (event.target === cModal) closeConstructorModal();
+            if (event.target === tModal) closeTrackModal();
+        }
+
+        // Team Filter Buttons logic
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", function() {
+                document.querySelectorAll(".filter-btn").forEach(b => {
+                    b.classList.remove("active", "bg-f1-red", "text-white");
+                    b.classList.add("bg-neutral-900", "text-gray-400");
+                });
+                this.classList.add("active", "bg-f1-red", "text-white");
+                this.classList.remove("bg-neutral-900", "text-gray-400");
+                
+                const team = this.getAttribute("data-team");
+                renderDrivers(team);
+            });
+        });
+
+        // Mouse drag scrolling logic for desktop standings table view
+        function enableDragScroll() {
+            const container = document.getElementById("driverTableScrollContainer");
+            if (!container) return;
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            container.addEventListener("mousedown", (e) => {
+                isDown = true;
+                container.classList.add("active");
+                // Avoid text selection while dragging
+                e.preventDefault();
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+            });
+
+            container.addEventListener("mouseleave", () => {
+                isDown = false;
+                container.classList.remove("active");
+            });
+
+            container.addEventListener("mouseup", () => {
+                isDown = false;
+                container.classList.remove("active");
+            });
+
+            container.addEventListener("mousemove", (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 1.8; // speed scroll
+                container.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        // Initialize lists on document load
+        window.onload = function() {
+            renderTeamFilterLogos();
+            renderDrivers("all");
+            renderConstructors();
+            renderStandings();
+            renderTracks();
+            enableDragScroll();
+        };
+    </script>
+</body>
+</html>
